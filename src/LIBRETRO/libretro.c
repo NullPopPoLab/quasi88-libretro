@@ -132,15 +132,15 @@ static bool      rumble_enabled                 = true;
 static char      download_dir[OSD_MAX_FILENAME] = { '\0' };
 static char      system_dir[OSD_MAX_FILENAME]   = { '\0' };
 
-static bool set_drive_eject_state(unsigned drive, bool ejected)
+static bool set_drive_eject_state(unsigned drv, bool ejected)
 {
 	if(ejected){
-		quasi88_disk_eject(drive);
+		quasi88_disk_eject(drv);
 		return true;
 	}
 	else{
 		if(diskidx<disk_image_num(0)){
-			switch(drive){
+			switch(drv){
 				case 0:
 				quasi88_disk_image_select(0,diskidx);
 				return true;
@@ -151,7 +151,7 @@ static bool set_drive_eject_state(unsigned drive, bool ejected)
 			}
 		}
 		if(diskidx<disk_image_num(0)+disk_image_num(1)){
-			switch(drive){
+			switch(drv){
 				case 0:
 				quasi88_disk_insert_A_to_B(1,0,diskidx-disk_image_num(0));
 				return true;
@@ -165,9 +165,9 @@ static bool set_drive_eject_state(unsigned drive, bool ejected)
 	return false;
 }
 
-static bool get_drive_eject_state(unsigned drive)
+static bool get_drive_eject_state(unsigned drv)
 {
-   return drive_check_empty(drive);
+   return drive_check_empty(drv);
 }
 
 static unsigned get_image_index(void)
@@ -288,9 +288,11 @@ static void handle_input(void)
    
    input_poll_cb();
 
+#if 0
    /* Ignore other input while swapping disks */
    if (handle_disk_swap(true, RETRO_DEVICE_ID_JOYPAD_L) || handle_disk_swap(false, RETRO_DEVICE_ID_JOYPAD_R))
       return;
+#endif
 
    /* Simple default remappings for joypad, these are temporary and a bit arbitrary */
    handle_pad(KEY88_KP_8,    RETRO_DEVICE_ID_JOYPAD_UP,     0);
@@ -581,8 +583,6 @@ void retro_init(void)
       { 0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_Y,      "Space Key" },
       { 0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_START,  "Return Key" },
       { 0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_SELECT, "I Key" },
-      { 0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_L,      "Change drive 1 disk" },
-      { 0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_R,      "Change drive 2 disk" },
 
       { 1, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_LEFT,   "D Key" },
       { 1, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_UP,     "R Key" },
