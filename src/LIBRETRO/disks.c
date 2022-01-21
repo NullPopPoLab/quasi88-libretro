@@ -13,6 +13,11 @@
 disk_t retro_disks[MAX_DISK_COUNT];
 static drive_swap_t swap;
 
+unsigned retro_disks_count()
+{
+	return swap.count;
+}
+
 void disk_display_message(retro_environment_t cb)
 {
    if (swap.state == DRIVE_NONE)

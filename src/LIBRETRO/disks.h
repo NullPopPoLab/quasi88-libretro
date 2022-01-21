@@ -38,4 +38,6 @@ void retro_disks_ready ();
 void retro_disks_set   (retro_environment_t cb);
 void retro_disks_start (retro_environment_t cb, bool is_first_drive);
 
+unsigned retro_disks_count ();
+
 extern disk_t retro_disks[MAX_DISK_COUNT];

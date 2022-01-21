@@ -139,28 +139,7 @@ static bool set_drive_eject_state(unsigned drv, bool ejected)
 		return true;
 	}
 	else{
-		if(diskidx<disk_image_num(0)){
-			switch(drv){
-				case 0:
-				quasi88_disk_image_select(0,diskidx);
-				return true;
-
-				case 1:
-				quasi88_disk_insert_A_to_B(0,1,diskidx);
-				return true;
-			}
-		}
-		if(diskidx<disk_image_num(0)+disk_image_num(1)){
-			switch(drv){
-				case 0:
-				quasi88_disk_insert_A_to_B(1,0,diskidx-disk_image_num(0));
-				return true;
-
-				case 1:
-				quasi88_disk_image_select(1,diskidx-disk_image_num(0));
-				return true;
-			}
-		}
+		quasi88_disk_insert(drv, retro_disks[diskidx].filename, 0, !retro_disks[diskidx].is_user_disk);
 	}
 	return false;
 }
@@ -188,7 +167,7 @@ static unsigned get_num_drives(void)
 
 static unsigned get_num_images(void)
 {
-   return disk_image_num(0)+disk_image_num(1);
+   return retro_disks_count();
 }
 
 void attach_disk_swap_interface(void)
