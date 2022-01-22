@@ -136,12 +136,11 @@ static bool set_drive_eject_state(unsigned drv, bool ejected)
 {
 	if(ejected){
 		quasi88_disk_eject(drv);
-		return true;
 	}
 	else{
-		quasi88_disk_insert(drv, retro_disks[diskidx].filename, 0, !retro_disks[diskidx].is_user_disk);
+		return quasi88_disk_insert(drv, retro_disks[diskidx].filename, 0, !retro_disks[diskidx].is_user_disk);
 	}
-	return false;
+	return true;
 }
 
 static bool get_drive_eject_state(unsigned drv)
