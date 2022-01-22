@@ -169,6 +169,34 @@ static unsigned get_num_images(void)
    return retro_disks_count();
 }
 
+static bool disk_get_image_path(unsigned index, char *path, size_t len)
+{
+   if (len < 1)
+      return false;
+
+      if (!string_is_empty(retro_disks[index].filename))
+      {
+         strncpy(path, retro_disks[index].filename, len);
+         return true;
+      }
+
+   return false;
+}
+
+static bool disk_get_image_label(unsigned index, char *label, size_t len)
+{
+   if (len < 1)
+      return false;
+
+      if (!string_is_empty(retro_disks[index].filename))
+      {
+         strncpy(path, retro_disks[index].basename, len);
+         return true;
+      }
+
+   return false;
+}
+
 void attach_disk_swap_interface(void)
 {
    memset(&dskcb,0,sizeof(dskcb));
@@ -178,6 +206,8 @@ void attach_disk_swap_interface(void)
    dskcb.get_image_index = get_image_index;
    dskcb.get_num_drives  = get_num_drives;
    dskcb.get_num_images  = get_num_images;
+   dskcb.get_image_path = disk_get_image_path;
+   dskcb.get_image_label = disk_get_image_label;
 
    environ_cb(RETRO_ENVIRONMENT_SET_DISK_CONTROL_EXT2_INTERFACE, &dskcb);
 }
