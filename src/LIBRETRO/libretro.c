@@ -190,7 +190,7 @@ static bool disk_get_image_label(unsigned index, char *label, size_t len)
 
       if (retro_disks[index].filename[0])
       {
-         strncpy(path, retro_disks[index].basename, len);
+         strncpy(label, retro_disks[index].basename, len);
          return true;
       }
 
