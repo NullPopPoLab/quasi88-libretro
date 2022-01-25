@@ -165,6 +165,7 @@ static void handle_pad(uint8_t key, uint16_t retro_button, uint8_t pad)
    }
 }
 
+#if 0
 static bool handle_disk_swap(bool is_first_drive, uint8_t key)
 {
    if (input_state_cb(0, RETRO_DEVICE_JOYPAD, 0, key))
@@ -204,6 +205,7 @@ static bool handle_disk_swap(bool is_first_drive, uint8_t key)
 
    return false;
 }
+#endif
 
 static void handle_input(void)
 {
@@ -211,30 +213,12 @@ static void handle_input(void)
    
    input_poll_cb();
 
+#if 0
    /* Ignore other input while swapping disks */
    if (handle_disk_swap(true, RETRO_DEVICE_ID_JOYPAD_L) || handle_disk_swap(false, RETRO_DEVICE_ID_JOYPAD_R))
       return;
+#endif
 
-   /* Simple default remappings for joypad, these are temporary and a bit arbitrary */
-   handle_pad(KEY88_KP_8,    RETRO_DEVICE_ID_JOYPAD_UP,     0);
-   handle_pad(KEY88_KP_2,    RETRO_DEVICE_ID_JOYPAD_DOWN,   0);
-   handle_pad(KEY88_KP_4,    RETRO_DEVICE_ID_JOYPAD_LEFT,   0);
-   handle_pad(KEY88_KP_6,    RETRO_DEVICE_ID_JOYPAD_RIGHT,  0);
-   handle_pad(KEY88_X,       RETRO_DEVICE_ID_JOYPAD_A,      0);
-   handle_pad(KEY88_Z,       RETRO_DEVICE_ID_JOYPAD_B,      0);
-   handle_pad(KEY88_SPACE,   RETRO_DEVICE_ID_JOYPAD_Y,      0);
-   handle_pad(KEY88_RETURN,  RETRO_DEVICE_ID_JOYPAD_START,  0);
-   handle_pad(KEY88_RETURNL, RETRO_DEVICE_ID_JOYPAD_START,  0);
-   handle_pad(KEY88_RETURNR, RETRO_DEVICE_ID_JOYPAD_START,  0);
-   handle_pad(KEY88_I,       RETRO_DEVICE_ID_JOYPAD_SELECT, 0);
-
-   handle_pad(KEY88_R,      RETRO_DEVICE_ID_JOYPAD_UP,     1);
-   handle_pad(KEY88_F,      RETRO_DEVICE_ID_JOYPAD_DOWN,   1);
-   handle_pad(KEY88_D,      RETRO_DEVICE_ID_JOYPAD_LEFT,   1);
-   handle_pad(KEY88_G,      RETRO_DEVICE_ID_JOYPAD_RIGHT,  1);
-   handle_pad(KEY88_TAB,    RETRO_DEVICE_ID_JOYPAD_A,      1);
-   handle_pad(KEY88_Q,      RETRO_DEVICE_ID_JOYPAD_B,      1);
-   
    /* Basics, numbers */
    for (i = 0; i < 64; i++)
       handle_key(i, i);
@@ -296,19 +280,42 @@ static void handle_input(void)
 
    /* Joypads */
    mouse_mode = 3;
-   handle_key(KEY88_PAD1_UP,    RETRO_DEVICE_ID_JOYPAD_UP);
-   handle_key(KEY88_PAD1_DOWN,  RETRO_DEVICE_ID_JOYPAD_DOWN);
-   handle_key(KEY88_PAD1_LEFT,  RETRO_DEVICE_ID_JOYPAD_LEFT);
-   handle_key(KEY88_PAD1_RIGHT, RETRO_DEVICE_ID_JOYPAD_RIGHT);
-   handle_key(KEY88_PAD1_A,     RETRO_DEVICE_ID_JOYPAD_A);
-   handle_key(KEY88_PAD1_B,     RETRO_DEVICE_ID_JOYPAD_B);
+   handle_pad(KEY88_PAD1_UP,    RETRO_DEVICE_ID_JOYPAD_UP,0);
+   handle_pad(KEY88_PAD1_DOWN,  RETRO_DEVICE_ID_JOYPAD_DOWN,0);
+   handle_pad(KEY88_PAD1_LEFT,  RETRO_DEVICE_ID_JOYPAD_LEFT,0);
+   handle_pad(KEY88_PAD1_RIGHT, RETRO_DEVICE_ID_JOYPAD_RIGHT,0);
+   handle_pad(KEY88_PAD1_A,     RETRO_DEVICE_ID_JOYPAD_A,0);
+   handle_pad(KEY88_PAD1_B,     RETRO_DEVICE_ID_JOYPAD_B,0);
    
-   handle_key(KEY88_PAD2_UP,    RETRO_DEVICE_ID_JOYPAD_UP);
-   handle_key(KEY88_PAD2_DOWN,  RETRO_DEVICE_ID_JOYPAD_DOWN);
-   handle_key(KEY88_PAD2_LEFT,  RETRO_DEVICE_ID_JOYPAD_LEFT);
-   handle_key(KEY88_PAD2_RIGHT, RETRO_DEVICE_ID_JOYPAD_RIGHT);
-   handle_key(KEY88_PAD2_A,     RETRO_DEVICE_ID_JOYPAD_A);
-   handle_key(KEY88_PAD2_B,     RETRO_DEVICE_ID_JOYPAD_B);
+   handle_pad(KEY88_PAD2_UP,    RETRO_DEVICE_ID_JOYPAD_UP,1);
+   handle_pad(KEY88_PAD2_DOWN,  RETRO_DEVICE_ID_JOYPAD_DOWN,1);
+   handle_pad(KEY88_PAD2_LEFT,  RETRO_DEVICE_ID_JOYPAD_LEFT,1);
+   handle_pad(KEY88_PAD2_RIGHT, RETRO_DEVICE_ID_JOYPAD_RIGHT,1);
+   handle_pad(KEY88_PAD2_A,     RETRO_DEVICE_ID_JOYPAD_A,1);
+   handle_pad(KEY88_PAD2_B,     RETRO_DEVICE_ID_JOYPAD_B,1);
+
+   /* Simple default remappings for joypad, these are temporary and a bit arbitrary */
+   handle_pad(KEY88_SPACE,   RETRO_DEVICE_ID_JOYPAD_C,      0);
+   handle_pad(KEY88_F1,      RETRO_DEVICE_ID_JOYPAD_Z,      0);
+   handle_pad(KEY88_F2,      RETRO_DEVICE_ID_JOYPAD_Y,      0);
+   handle_pad(KEY88_F3,      RETRO_DEVICE_ID_JOYPAD_X,      0);
+   handle_pad(KEY88_F4,      RETRO_DEVICE_ID_JOYPAD_R,      0);
+   handle_pad(KEY88_F5,      RETRO_DEVICE_ID_JOYPAD_R2,     0);
+   handle_pad(KEY88_ESC,     RETRO_DEVICE_ID_JOYPAD_L,      0);
+   handle_pad(KEY88_RETURN,  RETRO_DEVICE_ID_JOYPAD_L2,     0);
+   handle_pad(KEY88_SHIFTL,  RETRO_DEVICE_ID_JOYPAD_L3,     0);
+   handle_pad(KEY88_CTRL,    RETRO_DEVICE_ID_JOYPAD_R3,     0);
+   handle_pad(KEY88_HOME,    RETRO_DEVICE_ID_JOYPAD_SELECT, 0);
+   handle_pad(KEY88_HELP,    RETRO_DEVICE_ID_JOYPAD_START,  0);
+   handle_pad(KEY88_GRAPH,   RETRO_DEVICE_ID_JOYPAD_MENU,   0);
+   handle_pad(KEY88_RIGHT,   RETRO_DEVICE_ID_JOYPAD_LEFT_ANALOG_RIGHT,  0);
+   handle_pad(KEY88_LEFT,    RETRO_DEVICE_ID_JOYPAD_LEFT_ANALOG_LEFT,   0);
+   handle_pad(KEY88_DOWN,    RETRO_DEVICE_ID_JOYPAD_LEFT_ANALOG_DOWN,   0);
+   handle_pad(KEY88_UP,      RETRO_DEVICE_ID_JOYPAD_LEFT_ANALOG_UP,     0);
+   handle_pad(KEY88_KP_6,    RETRO_DEVICE_ID_JOYPAD_RIGHT_ANALOG_RIGHT, 0);
+   handle_pad(KEY88_KP_4,    RETRO_DEVICE_ID_JOYPAD_RIGHT_ANALOG_LEFT,  0);
+   handle_pad(KEY88_KP_2,    RETRO_DEVICE_ID_JOYPAD_RIGHT_ANALOG_DOWN,  0);
+   handle_pad(KEY88_KP_8,    RETRO_DEVICE_ID_JOYPAD_RIGHT_ANALOG_UP,    0);
 }
 
 static void handle_rumble(void)
@@ -491,31 +498,47 @@ static bool load_system_file(uint8_t bios_index, byte *rom_data, uint32_t rom_si
 
 void retro_init(void)
 {
+	static struct retro_input_descriptor desc[] = {
+		{ 0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_RIGHT, "D-Pad Right" },
+		{ 0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_LEFT, "D-Pad Left" },
+		{ 0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_UP, "D-Pad Up" },
+		{ 0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_DOWN, "D-Pad Down" },
+		{ 0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_A, "Button 1" },
+		{ 0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_B, "Button 2" },
+		{ 0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_C, "Space" },
+		{ 0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_X, "F3" },
+		{ 0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_Y, "F2" },
+		{ 0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_Z, "F1" },
+		{ 0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_SELECT, "Clr" },
+		{ 0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_START, "Help" },
+		{ 0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_R, "F4" },
+		{ 0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_L, "Esc" },
+		{ 0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_R2, "F5" },
+		{ 0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_L2, "Return" },
+		{ 0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_R3, "Ctrl" },
+		{ 0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_L3, "Shift" },
+		{ 0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_MENU, "Graph" },
+		{ 0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_LEFT_ANALOG_RIGHT, "Key Right" },
+		{ 0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_LEFT_ANALOG_LEFT, "Key Left" },
+		{ 0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_LEFT_ANALOG_DOWN, "Key Down" },
+		{ 0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_LEFT_ANALOG_UP, "Key Up" },
+		{ 0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_RIGHT_ANALOG_RIGHT, "NumPad 6" },
+		{ 0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_RIGHT_ANALOG_LEFT, "NumPad 4" },
+		{ 0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_RIGHT_ANALOG_DOWN, "NumPad 2" },
+		{ 0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_RIGHT_ANALOG_UP, "NumPad 8" },
+
+		{ 1, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_RIGHT, "D-Pad Right" },
+		{ 1, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_LEFT, "D-Pad Left" },
+		{ 1, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_UP, "D-Pad Up" },
+		{ 1, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_DOWN, "D-Pad Down" },
+		{ 1, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_A, "Button 1" },
+		{ 1, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_B, "Button 2" },
+
+		{ 0, 0, 0, 0, NULL }
+	};
+
    char *dir = NULL;
    struct retro_rumble_interface rumble;
-
-   struct retro_input_descriptor desc[] = {
-      { 0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_LEFT,   "Left (Keypad 4)" },
-      { 0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_UP,     "Up (Keypad 8)" },
-      { 0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_DOWN,   "Down (Keypad 2)" },
-      { 0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_RIGHT,  "Right (Keypad 6)" },
-      { 0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_A,      "X Key" },
-      { 0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_B,      "Z Key" },
-      { 0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_Y,      "Space Key" },
-      { 0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_START,  "Return Key" },
-      { 0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_SELECT, "I Key" },
-      { 0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_L,      "Change drive 1 disk" },
-      { 0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_R,      "Change drive 2 disk" },
-
-      { 1, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_LEFT,   "D Key" },
-      { 1, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_UP,     "R Key" },
-      { 1, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_DOWN,   "F Key" },
-      { 1, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_RIGHT,  "G Key" },
-      { 1, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_A,      "Tab Key" },
-      { 1, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_B,      "Q Key" },
-
-      { 0 },
-   };
 
    if (environ_cb(RETRO_ENVIRONMENT_GET_RUMBLE_INTERFACE, &rumble))
       rumble_cb = rumble.set_rumble_state;
