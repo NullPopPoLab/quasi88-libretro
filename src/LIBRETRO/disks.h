@@ -1,7 +1,7 @@
 #include <stdint.h>
 #include <libretro.h>
 
-#define MAX_DISK_COUNT         16
+#define MAX_DISK_COUNT         32
 #define MESSAGE_DISPLAY_FRAMES 180
 #define DRIVE_NONE             -1
 #define NO_DISK                -1
@@ -37,5 +37,7 @@ void retro_disks_cycle (retro_environment_t cb, bool right);
 void retro_disks_ready ();
 void retro_disks_set   (retro_environment_t cb);
 void retro_disks_start (retro_environment_t cb, bool is_first_drive);
+
+unsigned retro_disks_count ();
 
 extern disk_t retro_disks[MAX_DISK_COUNT];

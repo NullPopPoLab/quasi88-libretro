@@ -67,6 +67,10 @@ static const struct retro_subsystem_memory_info pc88_memory[] = {
     { "vram", RETRO_MEMORY_PC88_VIDEO_RAM },
 };
 
+static struct retro_disk_control_ext2_callback dskcb;
+static unsigned diskidx=0;
+
+#if 0
 static const struct retro_subsystem_rom_info pc88_disk[] = {
    { "Disk 1", "d88", true, false, true, pc88_memory, 1 },
    { "Disk 2", "d88", true, false, true, pc88_memory, 1 },
@@ -85,6 +89,7 @@ static const struct retro_subsystem_info subsystems[] = {
    { "6-Disk Game", "pc88_6_disk", pc88_disk, 6, 0x0105 },
    { NULL }
 };
+#endif
 
 static const struct retro_controller_description port[] = {
    { "Retro Joypad",   RETRO_DEVICE_JOYPAD },
@@ -126,6 +131,86 @@ static bool     *pad_buffer                     = NULL;
 static bool      rumble_enabled                 = true;
 static char      download_dir[OSD_MAX_FILENAME] = { '\0' };
 static char      system_dir[OSD_MAX_FILENAME]   = { '\0' };
+
+static bool set_drive_eject_state(unsigned drv, bool ejected)
+{
+	if(ejected){
+		quasi88_disk_eject(drv);
+	}
+	else{
+		return quasi88_disk_insert(drv, retro_disks[diskidx].filename, 0, !retro_disks[diskidx].is_user_disk);
+	}
+	return true;
+}
+
+static bool get_drive_eject_state(unsigned drv)
+{
+   return drive_check_empty(drv);
+}
+
+static unsigned get_image_index(void)
+{
+   return diskidx;
+}
+
+static bool set_image_index(unsigned index)
+{
+   diskidx = index;
+   return true;
+}
+
+static unsigned get_num_drives(void)
+{
+   return 2;
+}
+
+static unsigned get_num_images(void)
+{
+   return retro_disks_count();
+}
+
+static bool disk_get_image_path(unsigned index, char *path, size_t len)
+{
+   if (len < 1)
+      return false;
+
+      if (retro_disks[index].filename[0])
+      {
+         strncpy(path, retro_disks[index].filename, len);
+         return true;
+      }
+
+   return false;
+}
+
+static bool disk_get_image_label(unsigned index, char *label, size_t len)
+{
+   if (len < 1)
+      return false;
+
+      if (retro_disks[index].filename[0])
+      {
+         strncpy(label, retro_disks[index].basename, len);
+         return true;
+      }
+
+   return false;
+}
+
+void attach_disk_swap_interface(void)
+{
+   memset(&dskcb,0,sizeof(dskcb));
+   dskcb.set_drive_eject_state = set_drive_eject_state;
+   dskcb.get_drive_eject_state = get_drive_eject_state;
+   dskcb.set_image_index = set_image_index;
+   dskcb.get_image_index = get_image_index;
+   dskcb.get_num_drives  = get_num_drives;
+   dskcb.get_num_images  = get_num_images;
+   dskcb.get_image_path = disk_get_image_path;
+   dskcb.get_image_label = disk_get_image_label;
+
+   environ_cb(RETRO_ENVIRONMENT_SET_DISK_CONTROL_EXT2_INTERFACE, &dskcb);
+}
 
 static void handle_key(uint8_t key, uint16_t retro_key)
 {
@@ -601,6 +686,8 @@ void retro_init(void)
    else
       save_to_disk_image = true;
   
+   attach_disk_swap_interface();
+
    environ_cb(RETRO_ENVIRONMENT_SET_INPUT_DESCRIPTORS, desc);
    key_buffer = (bool*)calloc(KEY88_END, sizeof(bool));
    pad_buffer = (bool*)calloc(KEY88_END, sizeof(bool));
@@ -794,7 +881,7 @@ void retro_set_environment(retro_environment_t cb)
 
    cb(RETRO_ENVIRONMENT_SET_CONTROLLER_INFO, (void*)ports);
    cb(RETRO_ENVIRONMENT_SET_PIXEL_FORMAT,    &rgb565);
-   cb(RETRO_ENVIRONMENT_SET_SUBSYSTEM_INFO,  (void*)subsystems);
+/*   cb(RETRO_ENVIRONMENT_SET_SUBSYSTEM_INFO,  (void*)subsystems);*/
    cb(RETRO_ENVIRONMENT_SET_SUPPORT_NO_GAME, &no_game);
    
    /* Set localized core options if available */

@@ -13,6 +13,11 @@
 disk_t retro_disks[MAX_DISK_COUNT];
 static drive_swap_t swap;
 
+unsigned retro_disks_count()
+{
+	return swap.count;
+}
+
 void disk_display_message(retro_environment_t cb)
 {
    if (swap.state == DRIVE_NONE)
@@ -111,8 +116,10 @@ void retro_disks_ready()
 {
    uint8_t i;
 
+#if 0
    for (i = 2; i < swap.count; i++)
       quasi88_disk_insert(DRIVE_1, retro_disks[i].filename, i - 1, 0);
+#endif
    if (swap.count > 0)
       quasi88_disk_insert(DRIVE_1, retro_disks[0].filename, 0, 0);
    if (swap.count > 1)

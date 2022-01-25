@@ -437,12 +437,11 @@ int	drive_check_empty( int drv )
 
 /* エラー表示( s はメッセージ。\n はダメ)。 ディスクはイジェクトされる */
 
-#define		DISK_ERROR( s, drv )					\
+#define		DISK_ERROR( s, drv,fn,im )					\
   do {									\
     if (quasi88_is_menu() == FALSE) {					\
       printf( "\n" );				 			\
-      printf( "[[[ %-26s ]]]\n", s );				  	\
-      printf( "[[[   Eject Disk from drive %d: ]]]\n" "\n", drv+1 ); 	\
+      printf( "[[[ %u: %s; %s(%d) ]]]\n", drv+1, s ,fn,im );  	\
     }									\
     disk_eject( drv );							\
   } while(0)
@@ -545,7 +544,7 @@ int	disk_insert( int drv, const char *filename, int img, int readonly )
   }
 
   if( drive[ drv ].fp == NULL ){
-    DISK_ERROR( "Open failed", drv );
+    DISK_ERROR( "Open failed", drv,filename,img );
     return 1;
   }
 
@@ -653,7 +652,7 @@ int	disk_insert( int drv, const char *filename, int img, int readonly )
     }
 
     if( num==0 ){
-      DISK_ERROR( "Image not found", drv );
+      DISK_ERROR( "Image not found", drv,filename,img );
       return 1;
     }
 
