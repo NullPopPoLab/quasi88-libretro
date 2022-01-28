@@ -657,7 +657,7 @@ static bool load_m3u(const char *filename)
 			if(*p && *p!=';')typ=*p++;
 			else typ=0;
 			if(*p && *p!=';')num=*p++;
-			else num='1';
+			else num='0';
 			if(*p=='!'){rof=1; ++p;}
 			else rof=0;
 			if(*p==';')++p;
@@ -665,14 +665,17 @@ static bool load_m3u(const char *filename)
 			switch(typ){
 				case 'F': /* floppy drive */
 				switch(num){
+					case '0': /* undrived floppy */
+					break;
+
 					case '1': /* 1st floppy drive */
 					if(*p)ADVANCED_FD1=loaded_disks;
-					if(rof)ADVANCED_FD1_RO=true;
+					ADVANCED_FD1_RO=rof;
 					break;
 
 					case '2': /* 2nd floppy drive */
 					if(*p)ADVANCED_FD2=loaded_disks;
-					if(rof)ADVANCED_FD2_RO=true;
+					ADVANCED_FD2_RO=rof;
 					break;
 				}
 				break;
@@ -705,7 +708,7 @@ static bool load_m3u(const char *filename)
             if (osd_file_stat(name) == FILE_STAT_NOEXIST)
                continue;
          }
-         retro_disks_append(name);
+         retro_disks_append(name,rof);
          loaded_disks++;
       }
    }
@@ -727,7 +730,7 @@ bool retro_load_game(const struct retro_game_info *info)
          load_m3u(info->path);
       else
       {
-         retro_disks_append(info->path);
+         retro_disks_append(info->path,false);
          quasi88_disk_insert(DRIVE_1, info->path, 0, 0);
       }
    }
@@ -748,7 +751,7 @@ bool retro_load_game_special(unsigned type, const struct retro_game_info *info, 
    for (i = 0; i < num_info; i++)
    {
       if (info && !string_is_empty(info[i].path))
-         retro_disks_append(info[i].path);
+         retro_disks_append(info[i].path,false);
    }
    retro_disks_ready();
    quasi88_reset(NULL);
