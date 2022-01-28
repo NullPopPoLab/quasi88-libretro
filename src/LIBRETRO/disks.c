@@ -10,6 +10,10 @@
 
 #include "disks.h"
 
+extern bool ADVANCED_M3U;
+extern int ADVANCED_FD1;
+extern int ADVANCED_FD2;
+
 disk_t retro_disks[MAX_DISK_COUNT];
 static drive_swap_t swap;
 
@@ -111,12 +115,18 @@ void retro_disks_ready()
 {
    uint8_t i;
 
-   for (i = 2; i < swap.count; i++)
-      quasi88_disk_insert(DRIVE_1, retro_disks[i].filename, i - 1, 0);
-   if (swap.count > 0)
-      quasi88_disk_insert(DRIVE_1, retro_disks[0].filename, 0, 0);
-   if (swap.count > 1)
-      quasi88_disk_insert(DRIVE_2, retro_disks[1].filename, 0, 0);
+	if(ADVANCED_M3U){
+		if(ADVANCED_FD1>=0)quasi88_disk_insert(DRIVE_1, retro_disks[ADVANCED_FD1].filename, 0, 0);
+		if(ADVANCED_FD2>=0)quasi88_disk_insert(DRIVE_2, retro_disks[ADVANCED_FD2].filename, 0, 0);
+	}
+	else{
+		for (i = 2; i < swap.count; i++)
+		  quasi88_disk_insert(DRIVE_1, retro_disks[i].filename, i - 1, 0);
+		if (swap.count > 0)
+		  quasi88_disk_insert(DRIVE_1, retro_disks[0].filename, 0, 0);
+		if (swap.count > 1)
+		  quasi88_disk_insert(DRIVE_2, retro_disks[1].filename, 0, 0);
+	}
 }
 
 void retro_disks_set(retro_environment_t cb)
