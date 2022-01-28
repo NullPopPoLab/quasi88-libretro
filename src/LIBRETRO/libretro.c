@@ -130,6 +130,8 @@ static char      system_dir[OSD_MAX_FILENAME]   = { '\0' };
 bool ADVANCED_M3U=FALSE;
 int ADVANCED_FD1=-1;
 int ADVANCED_FD2=-1;
+bool ADVANCED_FD1_RO=false;
+bool ADVANCED_FD2_RO=false;
 
 static void handle_key(uint8_t key, uint16_t retro_key)
 {
@@ -655,8 +657,8 @@ static bool load_m3u(const char *filename)
 			if(*p && *p!=';')typ=*p++;
 			else typ=0;
 			if(*p && *p!=';')num=*p++;
-			else num=0;
-			if(*p=='!')rof=*p++;
+			else num='1';
+			if(*p=='!'){rof=1; ++p;}
 			else rof=0;
 			if(*p==';')++p;
 
@@ -665,10 +667,12 @@ static bool load_m3u(const char *filename)
 				switch(num){
 					case '1': /* 1st floppy drive */
 					if(*p)ADVANCED_FD1=loaded_disks;
+					if(rof)ADVANCED_FD1_RO=true;
 					break;
 
 					case '2': /* 2nd floppy drive */
 					if(*p)ADVANCED_FD2=loaded_disks;
+					if(rof)ADVANCED_FD2_RO=true;
 					break;
 				}
 				break;

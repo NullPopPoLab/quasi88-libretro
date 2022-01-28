@@ -13,6 +13,8 @@
 extern bool ADVANCED_M3U;
 extern int ADVANCED_FD1;
 extern int ADVANCED_FD2;
+extern bool ADVANCED_FD1_RO;
+extern bool ADVANCED_FD2_RO;
 
 disk_t retro_disks[MAX_DISK_COUNT];
 static drive_swap_t swap;
@@ -116,8 +118,8 @@ void retro_disks_ready()
    uint8_t i;
 
 	if(ADVANCED_M3U){
-		if(ADVANCED_FD1>=0)quasi88_disk_insert(DRIVE_1, retro_disks[ADVANCED_FD1].filename, 0, 0);
-		if(ADVANCED_FD2>=0)quasi88_disk_insert(DRIVE_2, retro_disks[ADVANCED_FD2].filename, 0, 0);
+		if(ADVANCED_FD1>=0)quasi88_disk_insert(DRIVE_1, retro_disks[ADVANCED_FD1].filename, 0, ADVANCED_FD1_RO);
+		if(ADVANCED_FD2>=0)quasi88_disk_insert(DRIVE_2, retro_disks[ADVANCED_FD2].filename, 0, ADVANCED_FD2_RO);
 	}
 	else{
 		for (i = 2; i < swap.count; i++)
