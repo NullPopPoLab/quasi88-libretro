@@ -17,7 +17,7 @@ extern bool ADVANCED_FD1_RO;
 extern bool ADVANCED_FD2_RO;
 
 disk_t retro_disks[MAX_DISK_COUNT];
-bool retro_disks_ro[MAX_DISK_COUNT];
+bool retro_disks_ro[MAX_DISK_COUNT]={0};
 static drive_swap_t swap;
 
 void disk_display_message(retro_environment_t cb)
