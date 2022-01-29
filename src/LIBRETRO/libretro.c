@@ -132,6 +132,12 @@ static bool      rumble_enabled                 = true;
 static char      download_dir[OSD_MAX_FILENAME] = { '\0' };
 static char      system_dir[OSD_MAX_FILENAME]   = { '\0' };
 
+bool ADVANCED_M3U=FALSE;
+int ADVANCED_FD1=-1;
+int ADVANCED_FD2=-1;
+bool ADVANCED_FD1_RO=false;
+bool ADVANCED_FD2_RO=false;
+
 static bool set_drive_eject_state(unsigned drv, bool ejected)
 {
 	if(ejected){
@@ -722,33 +728,81 @@ static bool load_m3u(const char *filename)
 
    while (osd_fgets(line, sizeof(line), playlist_file))
    {
+		char typ,num,rof;
+		const char* p=line;
+
       /* Commented line */
-      if (line[0] == '#')
+      if (p[0] == '#')
          continue;
 
       /* Find and replace line breaks */
-      search_char = strchr(line, '\r');
+      search_char = strchr(p, '\r');
       if (search_char)
          *search_char = '\0';
-      search_char = strchr(line, '\n');
+      search_char = strchr(p, '\n');
       if (search_char)
          *search_char = '\0';
 
-      if (line[0] != '\0')
+		if(*p=='*'){
+			// advanced mark 
+			ADVANCED_M3U=TRUE;
+			++p;
+
+			if(*p && *p!=';')typ=*p++;
+			else typ=0;
+			if(*p && *p!=';')num=*p++;
+			else num='0';
+			if(*p=='!'){rof=1; ++p;}
+			else rof=0;
+			if(*p==';')++p;
+
+			switch(typ){
+				case 'F': /* floppy drive */
+				switch(num){
+					case '0': /* undrived floppy */
+					break;
+
+					case '1': /* 1st floppy drive */
+					if(*p)ADVANCED_FD1=loaded_disks;
+					ADVANCED_FD1_RO=rof;
+					break;
+
+					case '2': /* 2nd floppy drive */
+					if(*p)ADVANCED_FD2=loaded_disks;
+					ADVANCED_FD2_RO=rof;
+					break;
+				}
+				break;
+
+				case 'T': /* tape drive */
+				break;
+
+				case 'R': /* ROM slot */
+				break;
+
+				case 'H': /* hard drive */
+				break;
+
+				case 'O': /* optical drive */
+				break;
+			}
+		}
+
+      if (p[0] != '\0')
       {
          /* Try it as a relative path first */
-         snprintf(name, sizeof(name), "%s%s", basedir, line);
+         snprintf(name, sizeof(name), "%s%s", basedir, p);
 
          /* Doesn't exist, try as an absolute path now */
          if (osd_file_stat(name) == FILE_STAT_NOEXIST)
          {
-            strncpy(name, line, sizeof(name));
+            strncpy(name, p, sizeof(name));
 
             /* Give up */
             if (osd_file_stat(name) == FILE_STAT_NOEXIST)
                continue;
          }
-         retro_disks_append(name);
+         retro_disks_append(name,rof);
          loaded_disks++;
       }
    }
@@ -770,7 +824,7 @@ bool retro_load_game(const struct retro_game_info *info)
          load_m3u(info->path);
       else
       {
-         retro_disks_append(info->path);
+         retro_disks_append(info->path,false);
          quasi88_disk_insert(DRIVE_1, info->path, 0, 0);
       }
    }
@@ -791,7 +845,7 @@ bool retro_load_game_special(unsigned type, const struct retro_game_info *info, 
    for (i = 0; i < num_info; i++)
    {
       if (info && !string_is_empty(info[i].path))
-         retro_disks_append(info[i].path);
+         retro_disks_append(info[i].path,false);
    }
    retro_disks_ready();
    quasi88_reset(NULL);
