@@ -124,8 +124,8 @@ void retro_disks_ready()
 		if(ADVANCED_FD2>=0)quasi88_disk_insert(DRIVE_2, retro_disks[ADVANCED_FD2].filename, 0, ADVANCED_FD2_RO);
 	}
 	else{
-		for (i = 2; i < swap.count; i++)
-		  quasi88_disk_insert(DRIVE_1, retro_disks[i].filename, i - 1, 0);
+/*		for (i = 2; i < swap.count; i++)
+		  quasi88_disk_insert(DRIVE_1, retro_disks[i].filename, i - 1, 0);*/
 		if (swap.count > 0)
 		  quasi88_disk_insert(DRIVE_1, retro_disks[0].filename, 0, 0);
 		if (swap.count > 1)
