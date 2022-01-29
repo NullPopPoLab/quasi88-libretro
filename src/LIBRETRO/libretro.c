@@ -127,7 +127,7 @@ static bool      rumble_enabled                 = true;
 static char      download_dir[OSD_MAX_FILENAME] = { '\0' };
 static char      system_dir[OSD_MAX_FILENAME]   = { '\0' };
 
-bool ADVANCED_M3U=FALSE;
+bool ADVANCED_M3U=false;
 int ADVANCED_FD1=-1;
 int ADVANCED_FD2=-1;
 bool ADVANCED_FD1_RO=false;
@@ -651,7 +651,7 @@ static bool load_m3u(const char *filename)
 
 		if(*p=='*'){
 			// advanced mark 
-			ADVANCED_M3U=TRUE;
+			ADVANCED_M3U=true;
 			++p;
 
 			if(*p && *p!=';')typ=*p++;
