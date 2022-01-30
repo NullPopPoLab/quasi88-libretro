@@ -250,6 +250,7 @@ static void handle_pad(uint8_t key, uint16_t retro_button, uint8_t pad)
    }
 }
 
+#if 0
 static bool handle_disk_swap(bool is_first_drive, uint8_t key)
 {
    if (input_state_cb(0, RETRO_DEVICE_JOYPAD, 0, key))
@@ -289,6 +290,7 @@ static bool handle_disk_swap(bool is_first_drive, uint8_t key)
 
    return false;
 }
+#endif
 
 static void handle_input(void)
 {
