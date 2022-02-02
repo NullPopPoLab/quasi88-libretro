@@ -91,16 +91,27 @@ static const struct retro_subsystem_info subsystems[] = {
 };
 #endif
 
+#define RETRO_DEVICE_JOY2CURSOR RETRO_DEVICE_SUBCLASS(RETRO_DEVICE_JOYPAD, 1)
+#define RETRO_DEVICE_JOY2NUMPAD RETRO_DEVICE_SUBCLASS(RETRO_DEVICE_JOYPAD, 2)
+
 static const struct retro_controller_description port[] = {
    { "Retro Joypad",   RETRO_DEVICE_JOYPAD },
+   { "RetroPad to Cursor",    RETRO_DEVICE_JOY2CURSOR },
+   { "RetroPad to NumPad",    RETRO_DEVICE_JOY2NUMPAD },
    { "Retro Keyboard", RETRO_DEVICE_KEYBOARD },
    { 0 },
 };
 
 static const struct retro_controller_info ports[] = {
-   { port, 2 },
-   { port, 2 },
+   { port, 4 },
+   { port, 1 },
    { NULL, 0 },
+};
+
+#define MAX_PADS 2
+static unsigned input_devices[MAX_PADS]={
+	RETRO_DEVICE_JOYPAD,
+	RETRO_DEVICE_JOYPAD
 };
 
 enum 
@@ -308,6 +319,26 @@ static void handle_input(void)
    /* Ignore other input while swapping disks */
    if (handle_disk_swap(true, RETRO_DEVICE_ID_JOYPAD_L) || handle_disk_swap(false, RETRO_DEVICE_ID_JOYPAD_R))
       return;
+
+   /* Simple default remappings for joypad, these are temporary and a bit arbitrary */
+   handle_pad(KEY88_KP_8,    RETRO_DEVICE_ID_JOYPAD_UP,     0);
+   handle_pad(KEY88_KP_2,    RETRO_DEVICE_ID_JOYPAD_DOWN,   0);
+   handle_pad(KEY88_KP_4,    RETRO_DEVICE_ID_JOYPAD_LEFT,   0);
+   handle_pad(KEY88_KP_6,    RETRO_DEVICE_ID_JOYPAD_RIGHT,  0);
+   handle_pad(KEY88_X,       RETRO_DEVICE_ID_JOYPAD_A,      0);
+   handle_pad(KEY88_Z,       RETRO_DEVICE_ID_JOYPAD_B,      0);
+   handle_pad(KEY88_SPACE,   RETRO_DEVICE_ID_JOYPAD_Y,      0);
+   handle_pad(KEY88_RETURN,  RETRO_DEVICE_ID_JOYPAD_START,  0);
+   handle_pad(KEY88_RETURNL, RETRO_DEVICE_ID_JOYPAD_START,  0);
+   handle_pad(KEY88_RETURNR, RETRO_DEVICE_ID_JOYPAD_START,  0);
+   handle_pad(KEY88_I,       RETRO_DEVICE_ID_JOYPAD_SELECT, 0);
+
+   handle_pad(KEY88_R,      RETRO_DEVICE_ID_JOYPAD_UP,     1);
+   handle_pad(KEY88_F,      RETRO_DEVICE_ID_JOYPAD_DOWN,   1);
+   handle_pad(KEY88_D,      RETRO_DEVICE_ID_JOYPAD_LEFT,   1);
+   handle_pad(KEY88_G,      RETRO_DEVICE_ID_JOYPAD_RIGHT,  1);
+   handle_pad(KEY88_TAB,    RETRO_DEVICE_ID_JOYPAD_A,      1);
+   handle_pad(KEY88_Q,      RETRO_DEVICE_ID_JOYPAD_B,      1);
 #endif
 
    /* Basics, numbers */
@@ -371,34 +402,71 @@ static void handle_input(void)
 
    /* Joypads */
    mouse_mode = 3;
-   handle_pad(KEY88_PAD1_UP,    RETRO_DEVICE_ID_JOYPAD_UP,0);
-   handle_pad(KEY88_PAD1_DOWN,  RETRO_DEVICE_ID_JOYPAD_DOWN,0);
-   handle_pad(KEY88_PAD1_LEFT,  RETRO_DEVICE_ID_JOYPAD_LEFT,0);
-   handle_pad(KEY88_PAD1_RIGHT, RETRO_DEVICE_ID_JOYPAD_RIGHT,0);
-   handle_pad(KEY88_PAD1_A,     RETRO_DEVICE_ID_JOYPAD_A,0);
-   handle_pad(KEY88_PAD1_B,     RETRO_DEVICE_ID_JOYPAD_B,0);
-   
+	switch(input_devices[0]){
+		case RETRO_DEVICE_JOYPAD:
+		handle_pad(KEY88_PAD1_UP,    RETRO_DEVICE_ID_JOYPAD_UP,0);
+		handle_pad(KEY88_PAD1_DOWN,  RETRO_DEVICE_ID_JOYPAD_DOWN,0);
+		handle_pad(KEY88_PAD1_LEFT,  RETRO_DEVICE_ID_JOYPAD_LEFT,0);
+		handle_pad(KEY88_PAD1_RIGHT, RETRO_DEVICE_ID_JOYPAD_RIGHT,0);
+		handle_pad(KEY88_PAD1_A,     RETRO_DEVICE_ID_JOYPAD_A,0);
+		handle_pad(KEY88_PAD1_B,     RETRO_DEVICE_ID_JOYPAD_B,0);
+		break;
+
+		case RETRO_DEVICE_JOY2CURSOR:
+		handle_pad(KEY88_UP,    RETRO_DEVICE_ID_JOYPAD_UP,0);
+		handle_pad(KEY88_DOWN,  RETRO_DEVICE_ID_JOYPAD_DOWN,0);
+		handle_pad(KEY88_LEFT,  RETRO_DEVICE_ID_JOYPAD_LEFT,0);
+		handle_pad(KEY88_RIGHT, RETRO_DEVICE_ID_JOYPAD_RIGHT,0);
+		handle_pad(KEY88_X,     RETRO_DEVICE_ID_JOYPAD_A,0);
+		handle_pad(KEY88_Z,     RETRO_DEVICE_ID_JOYPAD_B,0);
+		break;
+
+		case RETRO_DEVICE_JOY2NUMPAD:
+		handle_pad(KEY88_KP_8,   RETRO_DEVICE_ID_JOYPAD_UP,0);
+		handle_pad(KEY88_KP_2,  RETRO_DEVICE_ID_JOYPAD_DOWN,0);
+		handle_pad(KEY88_KP_4,  RETRO_DEVICE_ID_JOYPAD_LEFT,0);
+		handle_pad(KEY88_KP_6,  RETRO_DEVICE_ID_JOYPAD_RIGHT,0);
+		handle_pad(KEY88_X,     RETRO_DEVICE_ID_JOYPAD_A,0);
+		handle_pad(KEY88_Z,     RETRO_DEVICE_ID_JOYPAD_B,0);
+		break;
+	}
+
+   /* Simple default remappings for joypad, these are temporary and a bit arbitrary */
+	switch(input_devices[0]){
+		case RETRO_DEVICE_JOYPAD:
+		case RETRO_DEVICE_JOY2CURSOR:
+		case RETRO_DEVICE_JOY2NUMPAD:
+		handle_pad(KEY88_SPACE,   RETRO_DEVICE_ID_JOYPAD_C,      0);
+		handle_pad(KEY88_F1,      RETRO_DEVICE_ID_JOYPAD_Z,      0);
+		handle_pad(KEY88_F2,      RETRO_DEVICE_ID_JOYPAD_Y,      0);
+		handle_pad(KEY88_F3,      RETRO_DEVICE_ID_JOYPAD_X,      0);
+		handle_pad(KEY88_F4,      RETRO_DEVICE_ID_JOYPAD_R,      0);
+		handle_pad(KEY88_F5,      RETRO_DEVICE_ID_JOYPAD_R2,     0);
+		handle_pad(KEY88_ESC,     RETRO_DEVICE_ID_JOYPAD_L,      0);
+		handle_pad(KEY88_RETURN,  RETRO_DEVICE_ID_JOYPAD_L2,     0);
+		handle_pad(KEY88_SHIFTL,  RETRO_DEVICE_ID_JOYPAD_L3,     0);
+		handle_pad(KEY88_CTRL,    RETRO_DEVICE_ID_JOYPAD_R3,     0);
+		handle_pad(KEY88_HOME,    RETRO_DEVICE_ID_JOYPAD_SELECT, 0);
+		handle_pad(KEY88_HELP,    RETRO_DEVICE_ID_JOYPAD_START,  0);
+		handle_pad(KEY88_GRAPH,   RETRO_DEVICE_ID_JOYPAD_MENU,   0);
+		break;
+
+		case RETRO_KEYBOARD:
+		handle_key(KEY88_PAD1_UP,    RETROK_JOYPAD_UP);
+		handle_key(KEY88_PAD1_DOWN,  RETROK_JOYPAD_DOWN);
+		handle_key(KEY88_PAD1_LEFT,  RETROK_JOYPAD_LEFT);
+		handle_key(KEY88_PAD1_RIGHT, RETROK_JOYPAD_RIGHT);
+		handle_key(KEY88_PAD1_A,     RETROK_JOYPAD_1);
+		handle_key(KEY88_PAD1_B,     RETROK_JOYPAD_2);
+		break;
+	}
+
    handle_pad(KEY88_PAD2_UP,    RETRO_DEVICE_ID_JOYPAD_UP,1);
    handle_pad(KEY88_PAD2_DOWN,  RETRO_DEVICE_ID_JOYPAD_DOWN,1);
    handle_pad(KEY88_PAD2_LEFT,  RETRO_DEVICE_ID_JOYPAD_LEFT,1);
    handle_pad(KEY88_PAD2_RIGHT, RETRO_DEVICE_ID_JOYPAD_RIGHT,1);
    handle_pad(KEY88_PAD2_A,     RETRO_DEVICE_ID_JOYPAD_A,1);
    handle_pad(KEY88_PAD2_B,     RETRO_DEVICE_ID_JOYPAD_B,1);
-
-   /* Simple default remappings for joypad, these are temporary and a bit arbitrary */
-   handle_pad(KEY88_SPACE,   RETRO_DEVICE_ID_JOYPAD_C,      0);
-   handle_pad(KEY88_F1,      RETRO_DEVICE_ID_JOYPAD_Z,      0);
-   handle_pad(KEY88_F2,      RETRO_DEVICE_ID_JOYPAD_Y,      0);
-   handle_pad(KEY88_F3,      RETRO_DEVICE_ID_JOYPAD_X,      0);
-   handle_pad(KEY88_F4,      RETRO_DEVICE_ID_JOYPAD_R,      0);
-   handle_pad(KEY88_F5,      RETRO_DEVICE_ID_JOYPAD_R2,     0);
-   handle_pad(KEY88_ESC,     RETRO_DEVICE_ID_JOYPAD_L,      0);
-   handle_pad(KEY88_RETURN,  RETRO_DEVICE_ID_JOYPAD_L2,     0);
-   handle_pad(KEY88_SHIFTL,  RETRO_DEVICE_ID_JOYPAD_L3,     0);
-   handle_pad(KEY88_CTRL,    RETRO_DEVICE_ID_JOYPAD_R3,     0);
-   handle_pad(KEY88_HOME,    RETRO_DEVICE_ID_JOYPAD_SELECT, 0);
-   handle_pad(KEY88_HELP,    RETRO_DEVICE_ID_JOYPAD_START,  0);
-   handle_pad(KEY88_GRAPH,   RETRO_DEVICE_ID_JOYPAD_MENU,   0);
 }
 
 static void handle_rumble(void)
@@ -924,6 +992,7 @@ unsigned retro_api_version(void)
 
 void retro_set_controller_port_device(unsigned in_port, unsigned device)
 {
+	if(port<MAX_PADS)input_devices[port] = device;
 }
 
 void retro_set_environment(retro_environment_t cb)
