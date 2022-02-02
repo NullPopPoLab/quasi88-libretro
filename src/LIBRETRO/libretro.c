@@ -248,11 +248,11 @@ static void handle_input(void)
    handle_key(KEY88_BS,          RETROK_BACKSPACE);
    handle_key(KEY88_INS,         RETROK_INSERT);
    handle_key(KEY88_DEL,         RETROK_DELETE);
-   /*
-   handle_key(KEY88_HENKAN,      RETROK_);
-   handle_key(KEY88_KETTEI,      RETROK_);
-   handle_key(KEY88_PC,          RETROK_);
-   */
+
+   handle_key(KEY88_HENKAN,      RETROK_CONVERT);
+   handle_key(KEY88_KETTEI,      RETROK_EXEC);
+   handle_key(KEY88_PC,          RETROK_PC);
+
    handle_key(KEY88_ZENKAKU,     RETROK_RALT);
    handle_key(KEY88_RETURNL,     RETROK_RETURN);
    handle_key(KEY88_RETURNR,     RETROK_RETURN);
