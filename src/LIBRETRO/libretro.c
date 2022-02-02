@@ -451,7 +451,7 @@ static void handle_input(void)
 		handle_pad(KEY88_GRAPH,   RETRO_DEVICE_ID_JOYPAD_MENU,   0);
 		break;
 
-		case RETRO_KEYBOARD:
+		case RETRO_DEVICE_KEYBOARD:
 		handle_key(KEY88_PAD1_UP,    RETROK_JOYPAD_UP);
 		handle_key(KEY88_PAD1_DOWN,  RETROK_JOYPAD_DOWN);
 		handle_key(KEY88_PAD1_LEFT,  RETROK_JOYPAD_LEFT);
@@ -992,7 +992,7 @@ unsigned retro_api_version(void)
 
 void retro_set_controller_port_device(unsigned in_port, unsigned device)
 {
-	if(port<MAX_PADS)input_devices[port] = device;
+	if(port<MAX_PADS)input_devices[in_port] = device;
 }
 
 void retro_set_environment(retro_environment_t cb)
