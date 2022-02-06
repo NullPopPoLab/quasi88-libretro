@@ -69,6 +69,7 @@ static const struct retro_subsystem_memory_info pc88_memory[] = {
 
 static struct retro_disk_control_ext2_callback dskcb;
 static unsigned diskidx=0;
+int inserted_disk_idx[2]={-1,-1};
 
 #if 0
 static const struct retro_subsystem_rom_info pc88_disk[] = {
@@ -142,8 +143,10 @@ static bool set_drive_eject_state(unsigned drv, bool ejected)
 {
 	if(ejected){
 		quasi88_disk_eject(drv);
+		inserted_disk_idx[drv]=-1;
 	}
 	else{
+		inserted_disk_idx[drv]=diskidx;
 		return quasi88_disk_insert(drv, retro_disks[diskidx].filename, 0, !retro_disks[diskidx].is_user_disk);
 	}
 	return true;
@@ -203,6 +206,13 @@ static bool disk_get_image_label(unsigned index, char *label, size_t len)
    return false;
 }
 
+static int disk_get_drive_image_index(unsigned drive)
+{
+	if(drive>=get_num_drives())return -1;
+	if(get_drive_eject_state(drive))return -1;
+	return inserted_disk_idx[drive];	
+}
+
 void attach_disk_swap_interface(void)
 {
    memset(&dskcb,0,sizeof(dskcb));
@@ -214,6 +224,7 @@ void attach_disk_swap_interface(void)
    dskcb.get_num_images  = get_num_images;
    dskcb.get_image_path = disk_get_image_path;
    dskcb.get_image_label = disk_get_image_label;
+   dskcb.get_drive_image_index = disk_get_drive_image_index;
 
    environ_cb(RETRO_ENVIRONMENT_SET_DISK_CONTROL_EXT2_INTERFACE, &dskcb);
 }
