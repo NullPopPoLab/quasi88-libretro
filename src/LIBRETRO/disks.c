@@ -10,7 +10,14 @@
 
 #include "disks.h"
 
+extern bool ADVANCED_M3U;
+extern int ADVANCED_FD1;
+extern int ADVANCED_FD2;
+extern bool ADVANCED_FD1_RO;
+extern bool ADVANCED_FD2_RO;
+
 disk_t retro_disks[MAX_DISK_COUNT];
+bool retro_disks_ro[MAX_DISK_COUNT]={0};
 static drive_swap_t swap;
 
 unsigned retro_disks_count()
@@ -55,7 +62,7 @@ void retro_disks_init()
    swap.state   = DRIVE_NONE;
 }
 
-bool retro_disks_append(const char *new_filename)
+bool retro_disks_append(const char *new_filename, bool ro)
 {
    if (swap.count >= MAX_DISK_COUNT)
       return false;
@@ -67,7 +74,8 @@ bool retro_disks_append(const char *new_filename)
       new_disk->drive_index = DRIVE_NONE;
       new_disk->is_user_disk = is_user_disk(new_filename);
       strncpy(new_disk->basename, path_basename(new_filename), OSD_MAX_FILENAME);
-      swap.count++;
+
+		retro_disks_ro[swap.count++]=ro;
 
       if (swap.count == 1)
          swap.index_a = 0;
@@ -116,14 +124,18 @@ void retro_disks_ready()
 {
    uint8_t i;
 
-#if 0
-   for (i = 2; i < swap.count; i++)
-      quasi88_disk_insert(DRIVE_1, retro_disks[i].filename, i - 1, 0);
-#endif
-   if (swap.count > 0)
-      quasi88_disk_insert(DRIVE_1, retro_disks[0].filename, 0, 0);
-   if (swap.count > 1)
-      quasi88_disk_insert(DRIVE_2, retro_disks[1].filename, 0, 0);
+	if(ADVANCED_M3U){
+		if(ADVANCED_FD1>=0)quasi88_disk_insert(DRIVE_1, retro_disks[ADVANCED_FD1].filename, 0, ADVANCED_FD1_RO);
+		if(ADVANCED_FD2>=0)quasi88_disk_insert(DRIVE_2, retro_disks[ADVANCED_FD2].filename, 0, ADVANCED_FD2_RO);
+	}
+	else{
+/*		for (i = 2; i < swap.count; i++)
+		  quasi88_disk_insert(DRIVE_1, retro_disks[i].filename, i - 1, 0);*/
+		if (swap.count > 0)
+		  quasi88_disk_insert(DRIVE_1, retro_disks[0].filename, 0, 0);
+		if (swap.count > 1)
+		  quasi88_disk_insert(DRIVE_2, retro_disks[1].filename, 0, 0);
+	}
 }
 
 void retro_disks_set(retro_environment_t cb)
@@ -142,7 +154,7 @@ void retro_disks_set(retro_environment_t cb)
 
    if (index != NO_DISK)
    {
-      if (!quasi88_disk_insert(swap.state, retro_disks[index].filename, 0, 0))
+      if (!quasi88_disk_insert(swap.state, retro_disks[index].filename, 0, retro_disks_ro[index]))
          snprintf(msg, sizeof(msg), "Drive %c: Error! (%s)", drive_id, retro_disks[index].filename);
       else
       {
