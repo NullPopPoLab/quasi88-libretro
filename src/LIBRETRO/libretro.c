@@ -142,6 +142,52 @@ static void handle_key(uint8_t key, uint16_t retro_key)
 {
    bool key_on = input_state_cb(0, RETRO_DEVICE_KEYBOARD, 0, retro_key);
    
+	switch(retro_key){
+		case RETROK_KP1:
+		if(input_state_cb(0, RETRO_DEVICE_KEYBOARD, 0, RETROK_KP123) &&
+			input_state_cb(0, RETRO_DEVICE_KEYBOARD, 0, RETROK_KP147))key_on = true;
+		break;
+
+		case RETROK_KP2:
+		if(input_state_cb(0, RETRO_DEVICE_KEYBOARD, 0, RETROK_KP123) &&
+			!input_state_cb(0, RETRO_DEVICE_KEYBOARD, 0, RETROK_KP147) && 
+			!input_state_cb(0, RETRO_DEVICE_KEYBOARD, 0, RETROK_KP369))key_on = true;
+		break;
+
+		case RETROK_KP3:
+		if(input_state_cb(0, RETRO_DEVICE_KEYBOARD, 0, RETROK_KP123) &&
+			input_state_cb(0, RETRO_DEVICE_KEYBOARD, 0, RETROK_KP369))key_on = true;
+		break;
+
+		case RETROK_KP4:
+		if(input_state_cb(0, RETRO_DEVICE_KEYBOARD, 0, RETROK_KP147) &&
+			!input_state_cb(0, RETRO_DEVICE_KEYBOARD, 0, RETROK_KP123) && 
+			!input_state_cb(0, RETRO_DEVICE_KEYBOARD, 0, RETROK_KP789))key_on = true;
+		break;
+
+		case RETROK_KP6:
+		if(input_state_cb(0, RETRO_DEVICE_KEYBOARD, 0, RETROK_KP369) &&
+			!input_state_cb(0, RETRO_DEVICE_KEYBOARD, 0, RETROK_KP123) && 
+			!input_state_cb(0, RETRO_DEVICE_KEYBOARD, 0, RETROK_KP789))key_on = true;
+		break;
+
+		case RETROK_KP7:
+		if(input_state_cb(0, RETRO_DEVICE_KEYBOARD, 0, RETROK_KP789) &&
+			input_state_cb(0, RETRO_DEVICE_KEYBOARD, 0, RETROK_KP147))key_on = true;
+		break;
+
+		case RETROK_KP8:
+		if(input_state_cb(0, RETRO_DEVICE_KEYBOARD, 0, RETROK_KP789) &&
+			!input_state_cb(0, RETRO_DEVICE_KEYBOARD, 0, RETROK_KP147) && 
+			!input_state_cb(0, RETRO_DEVICE_KEYBOARD, 0, RETROK_KP369))key_on = true;
+		break;
+
+		case RETROK_KP9:
+		if(input_state_cb(0, RETRO_DEVICE_KEYBOARD, 0, RETROK_KP789) &&
+			input_state_cb(0, RETRO_DEVICE_KEYBOARD, 0, RETROK_KP369))key_on = true;
+		break;
+	}
+
    if (!pad_buffer[key])
    {
       if (!key_buffer[key] && key_on)
