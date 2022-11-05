@@ -2301,11 +2301,11 @@ struct retro_core_options_v2 options_eo = {
 #define OPTION_VAL_N88_V1S_ES NULL
 #define OPTION_VAL_N_ES NULL
 #define Q88_SUB_CPU_MODE_LABEL_ES "Modo del subprocesador"
-#define Q88_SUB_CPU_MODE_INFO_0_ES "Recomendación: ejecutar la sub-CPU solo al acceder al disco."
-#define OPTION_VAL_0_ES "Ejecutar la sub-CPU solo al acceder al disco"
-#define OPTION_VAL_1_ES "Ejecutar ambas CPU al acceder al disco"
+#define Q88_SUB_CPU_MODE_INFO_0_ES "Recomendación: ejecutar la sub-CPU solo al acceder al disquete."
+#define OPTION_VAL_0_ES "Ejecutar la sub-CPU solo al acceder al disquete"
+#define OPTION_VAL_1_ES "Ejecutar ambas CPU al acceder al disquete"
 #define OPTION_VAL_2_ES "Ejecutar siempre ambas CPU"
-#define Q88_CPU_CLOCK_LABEL_ES "Reloj de la CPU"
+#define Q88_CPU_CLOCK_LABEL_ES "Velocidad de la CPU"
 #define Q88_CPU_CLOCK_INFO_0_ES "Recomendación: 4 u 8 MHz. Algunas aplicaciones podrían ejecutarse demasiado rápido con una CPU a 8 MHz."
 #define OPTION_VAL_4_ES NULL
 #define OPTION_VAL_8_ES NULL
@@ -2313,18 +2313,18 @@ struct retro_core_options_v2 options_eo = {
 #define OPTION_VAL_32_ES "32 MHz (acelerar CPU)"
 #define OPTION_VAL_64_ES "64 MHz (acelerar CPU)"
 #define OPTION_VAL_1_O2_ES "1 MHz (ralentizar CPU)"
-#define OPTION_VAL_2_O2_ES "2 MHz (underclockear)"
+#define OPTION_VAL_2_O2_ES "2 MHz (ralentizar CPU)"
 #define Q88_SOUND_BOARD_LABEL_ES "Tarjeta de sonido"
-#define Q88_SOUND_BOARD_INFO_0_ES "Recomendación: OPNA. Algunas aplicaciones podrían tener un sonido alterado al utilizar un hardware OPN."
+#define Q88_SOUND_BOARD_INFO_0_ES "Recomendación: OPNA. Algunas aplicaciones podrían sonar de una forma distinta al utilizar un hardware OPN."
 #define OPTION_VAL_OPN_ES NULL
 #define OPTION_VAL_OPNA_ES NULL
 #define Q88_USE_FDC_WAIT_LABEL_ES "Esperar al FDC"
 #define Q88_USE_FDC_WAIT_INFO_0_ES "Recomendación: Sí. Mejora la sincronía del I/O con el controlador de la disquetera."
 #define Q88_PCG_8100_LABEL_ES "Utilizar PCG-8100"
 #define Q88_PCG_8100_INFO_0_ES "Recomendación: No. Algunas aplicaciones para PC-8000 sí podrían necesitarlo."
-#define Q88_SAVE_TO_DISK_IMAGE_LABEL_ES "Guardar a una imagen de disco"
-#define Q88_SAVE_TO_DISK_IMAGE_INFO_0_ES "Recomendación: No. Cambia el método preferido por el núcleo para guardar datos.\n\- No: Los datos que se escriban en disquetes serán almacenados en un archivo aparte, en el directorio de guardados del front-end.\n\- Sí: Los datos se escribirán directamente en el(los) archivo(s) de disco cargado(s). No se escribirán contenidos que estén en archivos .zip."
-#define Q88_RUMBLE_LABEL_ES "Vibrar el mando al acceder al disco"
+#define Q88_SAVE_TO_DISK_IMAGE_LABEL_ES "Guardar a una imagen de disquete"
+#define Q88_SAVE_TO_DISK_IMAGE_INFO_0_ES "Recomendación: No. Cambia el método preferido por el núcleo para guardar datos.\n\- No: Los datos que se escriban en disquetes serán almacenados en un archivo aparte, en el directorio de guardados del front-end.\n\- Sí: Los datos se escribirán directamente en el(los) archivo(s) de disquete cargado(s). No se escribirán contenidos que estén en archivos .zip."
+#define Q88_RUMBLE_LABEL_ES "Vibrar el mando al acceder al disquete"
 #define Q88_RUMBLE_INFO_0_ES "Recomendación: No disponible. Imita los sonidos de lectura del controlador de la disquetera con la vibración del mando."
 #define Q88_SCREEN_SIZE_LABEL_ES "Tamaño de la pantalla"
 #define Q88_SCREEN_SIZE_INFO_0_ES "Recomendación: Baja resolución. Permite que el núcleo pueda hacer la imagen más pequeña (recomendado para la pantalla de PSP)."
@@ -2716,7 +2716,7 @@ struct retro_core_options_v2 options_fa = {
 #define OPTION_VAL_1_FI NULL
 #define OPTION_VAL_2_FI NULL
 #define Q88_CPU_CLOCK_LABEL_FI NULL
-#define Q88_CPU_CLOCK_INFO_0_FI NULL
+#define Q88_CPU_CLOCK_INFO_0_FI "Suositus: 4 MHz tai 8 MHz. Jotkin ohjelmistot saattavat toimia liian nopeasti, jos asetus on 8 MHz."
 #define OPTION_VAL_4_FI NULL
 #define OPTION_VAL_8_FI NULL
 #define OPTION_VAL_16_FI NULL
@@ -2736,12 +2736,12 @@ struct retro_core_options_v2 options_fa = {
 #define Q88_SAVE_TO_DISK_IMAGE_INFO_0_FI NULL
 #define Q88_RUMBLE_LABEL_FI NULL
 #define Q88_RUMBLE_INFO_0_FI NULL
-#define Q88_SCREEN_SIZE_LABEL_FI NULL
+#define Q88_SCREEN_SIZE_LABEL_FI "Näytön koko"
 #define Q88_SCREEN_SIZE_INFO_0_FI NULL
 #define Q88_SCREEN_SIZE_INFO_1_FI NULL
 #define Q88_SCREEN_SIZE_INFO_2_FI NULL
-#define OPTION_VAL_FULL_FI NULL
-#define OPTION_VAL_HALF_FI NULL
+#define OPTION_VAL_FULL_FI "Täysi (640x400)"
+#define OPTION_VAL_HALF_FI "Puolikas (320x200)"
 
 struct retro_core_option_v2_category option_cats_fi[] = {
    { NULL, NULL, NULL },
@@ -4152,8 +4152,8 @@ struct retro_core_options_v2 options_it = {
 #define OPTION_VAL_2_JA "常時、両CPUを駆動させる"
 #define Q88_CPU_CLOCK_LABEL_JA "CPU クロック"
 #define Q88_CPU_CLOCK_INFO_0_JA "推奨：4MHzまたは8MHz。 一部のソフトウェアは、8MHz CPUでは高速に実行される場合があります。"
-#define OPTION_VAL_4_JA NULL
-#define OPTION_VAL_8_JA NULL
+#define OPTION_VAL_4_JA "4 MHz (NEC μPD780)"
+#define OPTION_VAL_8_JA "8 MHz (NEC μPD70008)"
 #define OPTION_VAL_16_JA "16 MHz (オーバークロック)"
 #define OPTION_VAL_32_JA "32 MHz (オーバークロック)"
 #define OPTION_VAL_64_JA "64 MHz (オーバークロック)"
@@ -4344,44 +4344,44 @@ struct retro_core_options_v2 options_ja = {
 
 /* RETRO_LANGUAGE_KO */
 
-#define Q88_BASIC_MODE_LABEL_KO NULL
-#define Q88_BASIC_MODE_INFO_0_KO NULL
+#define Q88_BASIC_MODE_LABEL_KO "BASIC 모드"
+#define Q88_BASIC_MODE_INFO_0_KO "권장: PC-8800 소프트웨어에는 N88-BASIC V2/V1H, PC-8000 소프트웨어에는 N-BASIC\n\- PC-8800 소프트웨어가 V2 모드에서 너무 빨리 실행된다면 V1 모드를 사용하십시오.\n\- N-BASIC 모드를 사용하려면 BIOS 파일이 필요합니다. 코어 정보를 참조하십시오."
 #define OPTION_VAL_N88_V2_KO NULL
 #define OPTION_VAL_N88_V1H_KO NULL
 #define OPTION_VAL_N88_V1S_KO NULL
 #define OPTION_VAL_N_KO NULL
-#define Q88_SUB_CPU_MODE_LABEL_KO NULL
-#define Q88_SUB_CPU_MODE_INFO_0_KO NULL
-#define OPTION_VAL_0_KO NULL
-#define OPTION_VAL_1_KO NULL
-#define OPTION_VAL_2_KO NULL
-#define Q88_CPU_CLOCK_LABEL_KO NULL
-#define Q88_CPU_CLOCK_INFO_0_KO NULL
+#define Q88_SUB_CPU_MODE_LABEL_KO "보조 CPU 모드"
+#define Q88_SUB_CPU_MODE_INFO_0_KO "권장: 디스크 액세스 중일 때 보조 CPU만 사용"
+#define OPTION_VAL_0_KO "디스크 액세스 중일 때 보조 CPU만 사용"
+#define OPTION_VAL_1_KO "디스크 액세스 중일 때 두 CPU 모두 사용"
+#define OPTION_VAL_2_KO "항상 두 CPU 모두 사용"
+#define Q88_CPU_CLOCK_LABEL_KO "CPU 클럭"
+#define Q88_CPU_CLOCK_INFO_0_KO "권장: 4MHz 또는 8MHz. 일부 소프트웨어는 8MHz CPU에서 너무 빠르게 실행될 수도 있습니다."
 #define OPTION_VAL_4_KO NULL
 #define OPTION_VAL_8_KO NULL
-#define OPTION_VAL_16_KO NULL
-#define OPTION_VAL_32_KO NULL
-#define OPTION_VAL_64_KO NULL
-#define OPTION_VAL_1_O2_KO NULL
-#define OPTION_VAL_2_O2_KO NULL
-#define Q88_SOUND_BOARD_LABEL_KO NULL
-#define Q88_SOUND_BOARD_INFO_0_KO NULL
+#define OPTION_VAL_16_KO "16 MHz (오버클럭)"
+#define OPTION_VAL_32_KO "32 MHz (오버클럭)"
+#define OPTION_VAL_64_KO "64 MHz (오버클럭)"
+#define OPTION_VAL_1_O2_KO "1 MHz (언더클럭)"
+#define OPTION_VAL_2_O2_KO "2 MHz (언더클럭)"
+#define Q88_SOUND_BOARD_LABEL_KO "사운드 보드"
+#define Q88_SOUND_BOARD_INFO_0_KO "권장: OPNA. 일부 소프트웨어는 OPN 하드웨어 사용 시 소리 출력이 달라질 수 있습니다."
 #define OPTION_VAL_OPN_KO NULL
 #define OPTION_VAL_OPNA_KO NULL
 #define Q88_USE_FDC_WAIT_LABEL_KO NULL
-#define Q88_USE_FDC_WAIT_INFO_0_KO NULL
-#define Q88_PCG_8100_LABEL_KO NULL
-#define Q88_PCG_8100_INFO_0_KO NULL
-#define Q88_SAVE_TO_DISK_IMAGE_LABEL_KO NULL
-#define Q88_SAVE_TO_DISK_IMAGE_INFO_0_KO NULL
-#define Q88_RUMBLE_LABEL_KO NULL
-#define Q88_RUMBLE_INFO_0_KO NULL
-#define Q88_SCREEN_SIZE_LABEL_KO NULL
-#define Q88_SCREEN_SIZE_INFO_0_KO NULL
-#define Q88_SCREEN_SIZE_INFO_1_KO NULL
-#define Q88_SCREEN_SIZE_INFO_2_KO NULL
-#define OPTION_VAL_FULL_KO NULL
-#define OPTION_VAL_HALF_KO NULL
+#define Q88_USE_FDC_WAIT_INFO_0_KO "권장: ON. 플로피 디스크 컨트롤러의 IO 타이밍을 더욱 정확하게 합니다."
+#define Q88_PCG_8100_LABEL_KO "PCG-8100 사용"
+#define Q88_PCG_8100_INFO_0_KO "권장: OFF. 일부 PC-8000 소프트웨어의 구동에 필요할 수도 있습니다."
+#define Q88_SAVE_TO_DISK_IMAGE_LABEL_KO "디스크 이미지에 저장"
+#define Q88_SAVE_TO_DISK_IMAGE_INFO_0_KO "권장: OFF. 코어가 선호할 저장 방식을 변경합니다.\n\- OFF: 플로피 디스크에 저장된 데이터는 프론트엔드의 저장 디렉토리에 개별 파일로 보관됩니다.\n\- ON: 데이터가 불러와진 디스크 파일에 직접 쓰여집니다. 압축된 컨텐츠에서는 작동하지 않습니다."
+#define Q88_RUMBLE_LABEL_KO "디스크 액세스 중 진동"
+#define Q88_RUMBLE_INFO_0_KO "권장: N/A. 플로피 디스크 컨트롤러가 디스크 읽는 소리를 컨트롤러의 진동으로 흉내냅니다."
+#define Q88_SCREEN_SIZE_LABEL_KO "화면 크기"
+#define Q88_SCREEN_SIZE_INFO_0_KO "권장: 절반. 코어가 출력되는 이미지를 줄일 수 있게 합니다. PSP 화면에 권장됩니다."
+#define Q88_SCREEN_SIZE_INFO_1_KO "권장: 절반. 코어가 출력되는 이미지를 줄일 수 있게 합니다. Nintendo 3DS 화면에 권장됩니다."
+#define Q88_SCREEN_SIZE_INFO_2_KO "권장: 전체. 코어가 출력되는 이미지를 줄일 수 있게 합니다. 화면 높이가 400 미만인 화면에만 사용할 것을 권장합니다."
+#define OPTION_VAL_FULL_KO "전체 (640x400)"
+#define OPTION_VAL_HALF_KO "절반 (320x200)"
 
 struct retro_core_option_v2_category option_cats_ko[] = {
    { NULL, NULL, NULL },
@@ -4957,6 +4957,211 @@ struct retro_core_options_v2 options_nl = {
    option_defs_nl
 };
 
+/* RETRO_LANGUAGE_NO */
+
+#define Q88_BASIC_MODE_LABEL_NO NULL
+#define Q88_BASIC_MODE_INFO_0_NO NULL
+#define OPTION_VAL_N88_V2_NO NULL
+#define OPTION_VAL_N88_V1H_NO NULL
+#define OPTION_VAL_N88_V1S_NO NULL
+#define OPTION_VAL_N_NO NULL
+#define Q88_SUB_CPU_MODE_LABEL_NO NULL
+#define Q88_SUB_CPU_MODE_INFO_0_NO NULL
+#define OPTION_VAL_0_NO NULL
+#define OPTION_VAL_1_NO NULL
+#define OPTION_VAL_2_NO NULL
+#define Q88_CPU_CLOCK_LABEL_NO NULL
+#define Q88_CPU_CLOCK_INFO_0_NO NULL
+#define OPTION_VAL_4_NO NULL
+#define OPTION_VAL_8_NO NULL
+#define OPTION_VAL_16_NO NULL
+#define OPTION_VAL_32_NO NULL
+#define OPTION_VAL_64_NO NULL
+#define OPTION_VAL_1_O2_NO NULL
+#define OPTION_VAL_2_O2_NO NULL
+#define Q88_SOUND_BOARD_LABEL_NO NULL
+#define Q88_SOUND_BOARD_INFO_0_NO NULL
+#define OPTION_VAL_OPN_NO NULL
+#define OPTION_VAL_OPNA_NO NULL
+#define Q88_USE_FDC_WAIT_LABEL_NO NULL
+#define Q88_USE_FDC_WAIT_INFO_0_NO NULL
+#define Q88_PCG_8100_LABEL_NO NULL
+#define Q88_PCG_8100_INFO_0_NO NULL
+#define Q88_SAVE_TO_DISK_IMAGE_LABEL_NO NULL
+#define Q88_SAVE_TO_DISK_IMAGE_INFO_0_NO NULL
+#define Q88_RUMBLE_LABEL_NO NULL
+#define Q88_RUMBLE_INFO_0_NO NULL
+#define Q88_SCREEN_SIZE_LABEL_NO NULL
+#define Q88_SCREEN_SIZE_INFO_0_NO NULL
+#define Q88_SCREEN_SIZE_INFO_1_NO NULL
+#define Q88_SCREEN_SIZE_INFO_2_NO NULL
+#define OPTION_VAL_FULL_NO NULL
+#define OPTION_VAL_HALF_NO NULL
+
+struct retro_core_option_v2_category option_cats_no[] = {
+   { NULL, NULL, NULL },
+};
+struct retro_core_option_v2_definition option_defs_no[] = {
+   { 
+      "q88_basic_mode", 
+      Q88_BASIC_MODE_LABEL_NO,
+      NULL, 
+      Q88_BASIC_MODE_INFO_0_NO,
+      NULL,
+      NULL,
+      {
+         { "N88 V2",  OPTION_VAL_N88_V2_NO },
+         { "N88 V1H", OPTION_VAL_N88_V1H_NO },
+         { "N88 V1S", OPTION_VAL_N88_V1S_NO },
+         { "N",       OPTION_VAL_N_NO },
+         { NULL, NULL }
+      },
+      "N88 V2"
+   },
+
+   { 
+      "q88_sub_cpu_mode",
+      Q88_SUB_CPU_MODE_LABEL_NO,
+      NULL,
+      Q88_SUB_CPU_MODE_INFO_0_NO,
+      NULL,
+      NULL,
+      {
+         { "0", OPTION_VAL_0_NO},
+         { "1", OPTION_VAL_1_NO},
+         { "2", OPTION_VAL_2_NO},
+         { NULL, NULL },
+      },
+      "0"
+   },
+
+   { 
+      "q88_cpu_clock", 
+      Q88_CPU_CLOCK_LABEL_NO,
+      NULL, 
+      Q88_CPU_CLOCK_INFO_0_NO,
+      NULL,
+      NULL,
+      {
+         { "4",  OPTION_VAL_4_NO },
+         { "8",  OPTION_VAL_8_NO },
+         { "16", OPTION_VAL_16_NO },
+         { "32", OPTION_VAL_32_NO },
+         { "64", OPTION_VAL_64_NO },
+         { "1",  OPTION_VAL_1_O2_NO },
+         { "2",  OPTION_VAL_2_O2_NO },
+         { NULL, NULL }
+      },
+      "4"
+   },
+
+   { 
+      "q88_sound_board", 
+      Q88_SOUND_BOARD_LABEL_NO,
+      NULL, 
+      Q88_SOUND_BOARD_INFO_0_NO,
+      NULL,
+      NULL,
+      {
+         { "OPN",  OPTION_VAL_OPN_NO },
+         { "OPNA", OPTION_VAL_OPNA_NO},
+         { NULL, NULL}
+      },
+      "OPNA"
+   },
+         
+   { 
+      "q88_use_fdc_wait", 
+      Q88_USE_FDC_WAIT_LABEL_NO,
+      NULL, 
+      Q88_USE_FDC_WAIT_INFO_0_NO,
+      NULL,
+      NULL,
+      {
+         { "enabled",  "enabled" },
+         { "disabled", "disabled" },
+         { NULL, NULL }
+      },
+      "enabled"
+   },
+
+   { 
+      "q88_pcg-8100", 
+      Q88_PCG_8100_LABEL_NO,
+      NULL, 
+      Q88_PCG_8100_INFO_0_NO,
+      NULL,
+      NULL,
+      {
+         { "enabled",  "enabled" },
+         { "disabled", "disabled" },
+         { NULL, NULL }
+      },
+      "disabled"
+   },
+
+   {
+      "q88_save_to_disk_image", 
+      Q88_SAVE_TO_DISK_IMAGE_LABEL_NO,
+      NULL, 
+      Q88_SAVE_TO_DISK_IMAGE_INFO_0_NO,
+      NULL,
+      NULL,
+      {
+         { "enabled",  "enabled" },
+         { "disabled", "disabled" },
+         { NULL, NULL }
+      },
+      "disabled"
+   },
+
+   { 
+      "q88_rumble", 
+      Q88_RUMBLE_LABEL_NO,
+      NULL, 
+      Q88_RUMBLE_INFO_0_NO,
+      NULL,
+      NULL,
+      {
+         { "enabled",  "enabled" },
+         { "disabled", "disabled" },
+         { NULL, NULL }
+      },
+      "enabled"
+   },
+
+   { 
+      "q88_screen_size", 
+      Q88_SCREEN_SIZE_LABEL_NO,
+      NULL, 
+#if defined (PSP)
+      Q88_SCREEN_SIZE_INFO_0_NO,
+#elif defined (_3DS)
+      Q88_SCREEN_SIZE_INFO_1_NO,
+#else
+      Q88_SCREEN_SIZE_INFO_2_NO,
+#endif
+      NULL,
+      NULL,
+      {
+         { "full",  OPTION_VAL_FULL_NO },
+         { "half",  OPTION_VAL_HALF_NO },
+         { NULL, NULL }
+      },
+#if defined (PSP) || defined (_3DS)
+      "half"
+#else
+      "full"
+#endif
+   },
+
+   { NULL, NULL, NULL, NULL, NULL, NULL, {{0}}, NULL },
+};
+struct retro_core_options_v2 options_no = {
+   option_cats_no,
+   option_defs_no
+};
+
 /* RETRO_LANGUAGE_OC */
 
 #define Q88_BASIC_MODE_LABEL_OC NULL
@@ -5376,10 +5581,10 @@ struct retro_core_options_v2 options_pl = {
 #define OPTION_VAL_N88_V1S_PT_BR NULL
 #define OPTION_VAL_N_PT_BR NULL
 #define Q88_SUB_CPU_MODE_LABEL_PT_BR "Modo da sub-CPU"
-#define Q88_SUB_CPU_MODE_INFO_0_PT_BR "Recomendado: Executar só a sub-CPU ao acessar o disco."
-#define OPTION_VAL_0_PT_BR "Executar só a sub-CPU ao acessar o disco"
-#define OPTION_VAL_1_PT_BR "Executar ambas CPUs ao acessar o disco"
-#define OPTION_VAL_2_PT_BR "Sempre executar ambas as CPUs"
+#define Q88_SUB_CPU_MODE_INFO_0_PT_BR "Recomendado: Executa só a sub-CPU ao acessar o disco."
+#define OPTION_VAL_0_PT_BR "Executa só a sub-CPU ao acessar o disco"
+#define OPTION_VAL_1_PT_BR "Executa ambas as CPUs ao acessar o disco"
+#define OPTION_VAL_2_PT_BR "Sempre executa ambas as CPUs"
 #define Q88_CPU_CLOCK_LABEL_PT_BR "Velocidade da CPU"
 #define Q88_CPU_CLOCK_INFO_0_PT_BR "Recomendado: 4MHz ou 8MHz. Alguns aplicativos podem ser executados muito rápido com uma CPU de 8MHz."
 #define OPTION_VAL_4_PT_BR NULL
@@ -5984,28 +6189,28 @@ struct retro_core_options_v2 options_ro = {
 
 /* RETRO_LANGUAGE_RU */
 
-#define Q88_BASIC_MODE_LABEL_RU NULL
-#define Q88_BASIC_MODE_INFO_0_RU NULL
+#define Q88_BASIC_MODE_LABEL_RU "Режим BASIC"
+#define Q88_BASIC_MODE_INFO_0_RU "Рекомендованный режим: N88-BASIC V2/V1H для программ PC-8800, N-BASIC для программ PC-8000.\n\ - Если программа PC-8800 идёт слишком быстро в режиме V2, используйте режим V1.\n\ - Файлы BIOS необходимы для режима N-BASIC. См. информацию о ядре."
 #define OPTION_VAL_N88_V2_RU NULL
 #define OPTION_VAL_N88_V1H_RU NULL
 #define OPTION_VAL_N88_V1S_RU NULL
 #define OPTION_VAL_N_RU NULL
-#define Q88_SUB_CPU_MODE_LABEL_RU NULL
-#define Q88_SUB_CPU_MODE_INFO_0_RU NULL
-#define OPTION_VAL_0_RU NULL
-#define OPTION_VAL_1_RU NULL
-#define OPTION_VAL_2_RU NULL
-#define Q88_CPU_CLOCK_LABEL_RU NULL
-#define Q88_CPU_CLOCK_INFO_0_RU NULL
-#define OPTION_VAL_4_RU NULL
-#define OPTION_VAL_8_RU NULL
-#define OPTION_VAL_16_RU NULL
-#define OPTION_VAL_32_RU NULL
-#define OPTION_VAL_64_RU NULL
-#define OPTION_VAL_1_O2_RU NULL
-#define OPTION_VAL_2_O2_RU NULL
-#define Q88_SOUND_BOARD_LABEL_RU NULL
-#define Q88_SOUND_BOARD_INFO_0_RU NULL
+#define Q88_SUB_CPU_MODE_LABEL_RU "Режим доп. CPU"
+#define Q88_SUB_CPU_MODE_INFO_0_RU "Рекомендованный режим: запускать доп. CPU только при чтении с диска."
+#define OPTION_VAL_0_RU "Запускать доп. CPU только при чтении с диска"
+#define OPTION_VAL_1_RU "Запускать оба CPU при чтении с диска"
+#define OPTION_VAL_2_RU "Всегда запускать оба CPU"
+#define Q88_CPU_CLOCK_LABEL_RU "Частота CPU"
+#define Q88_CPU_CLOCK_INFO_0_RU "Рекомендованный режим: 4 МГц или 8 МГц. Некоторые программы могут идти слишком быстро на 8 МГц."
+#define OPTION_VAL_4_RU "4 МГц (NEC µPD780)"
+#define OPTION_VAL_8_RU "8 МГц (NEC µPD70008)"
+#define OPTION_VAL_16_RU "16 МГц (разгон)"
+#define OPTION_VAL_32_RU "32 МГц (разгон)"
+#define OPTION_VAL_64_RU "64 МГц (разгон)"
+#define OPTION_VAL_1_O2_RU "1 МГц (замедление)"
+#define OPTION_VAL_2_O2_RU "2 МГц (замедление)"
+#define Q88_SOUND_BOARD_LABEL_RU "Звуковая плата"
+#define Q88_SOUND_BOARD_INFO_0_RU "Рекомендованный режим: OPNA. Некоторые программы будут звучать иначе на оборудовании OPN."
 #define OPTION_VAL_OPN_RU NULL
 #define OPTION_VAL_OPNA_RU NULL
 #define Q88_USE_FDC_WAIT_LABEL_RU NULL
@@ -6014,14 +6219,14 @@ struct retro_core_options_v2 options_ro = {
 #define Q88_PCG_8100_INFO_0_RU NULL
 #define Q88_SAVE_TO_DISK_IMAGE_LABEL_RU NULL
 #define Q88_SAVE_TO_DISK_IMAGE_INFO_0_RU NULL
-#define Q88_RUMBLE_LABEL_RU NULL
-#define Q88_RUMBLE_INFO_0_RU NULL
-#define Q88_SCREEN_SIZE_LABEL_RU NULL
-#define Q88_SCREEN_SIZE_INFO_0_RU NULL
-#define Q88_SCREEN_SIZE_INFO_1_RU NULL
-#define Q88_SCREEN_SIZE_INFO_2_RU NULL
-#define OPTION_VAL_FULL_RU NULL
-#define OPTION_VAL_HALF_RU NULL
+#define Q88_RUMBLE_LABEL_RU "Вибрация при чтении диска"
+#define Q88_RUMBLE_INFO_0_RU "Рекомендованный режим: Н/Д. Имитирует с помощью вибрации геймпада звук считывания контроллера гибких дисков."
+#define Q88_SCREEN_SIZE_LABEL_RU "Размер экрана"
+#define Q88_SCREEN_SIZE_INFO_0_RU "Рекомендованный режим: Половина. Позволяет ядру уменьшать размер изображения. Рекомендуется для экрана PSP."
+#define Q88_SCREEN_SIZE_INFO_1_RU "Рекомендованный режим: Половина. Позволяет ядру уменьшать размер изображения. Рекомендуется для экрана Nintendo 3DS."
+#define Q88_SCREEN_SIZE_INFO_2_RU "Рекомендованный режим: Полный. Позволяет ядру уменьшать размер изображения. Рекомендуется для экранов с высотой меньше 400."
+#define OPTION_VAL_FULL_RU "Полный (640x480)"
+#define OPTION_VAL_HALF_RU "Половина (320x200)"
 
 struct retro_core_option_v2_category option_cats_ru[] = {
    { NULL, NULL, NULL },
@@ -6836,7 +7041,7 @@ struct retro_core_options_v2 options_sr = {
 #define Q88_SAVE_TO_DISK_IMAGE_INFO_0_SV NULL
 #define Q88_RUMBLE_LABEL_SV NULL
 #define Q88_RUMBLE_INFO_0_SV NULL
-#define Q88_SCREEN_SIZE_LABEL_SV NULL
+#define Q88_SCREEN_SIZE_LABEL_SV "Skärmstorlek"
 #define Q88_SCREEN_SIZE_INFO_0_SV NULL
 #define Q88_SCREEN_SIZE_INFO_1_SV NULL
 #define Q88_SCREEN_SIZE_INFO_2_SV NULL
@@ -7009,44 +7214,44 @@ struct retro_core_options_v2 options_sv = {
 
 /* RETRO_LANGUAGE_TR */
 
-#define Q88_BASIC_MODE_LABEL_TR NULL
-#define Q88_BASIC_MODE_INFO_0_TR NULL
+#define Q88_BASIC_MODE_LABEL_TR "BASIC kipi"
+#define Q88_BASIC_MODE_INFO_0_TR "Önerilen: PC-8800 yazılımı için N88-BASIC V2/V1H, PC-8000 yazılımı için N-BASIC.\n\- PC-8800 yazılımı V2 kipinde çok hızlı çalışıyorsa, bir V1 kipi kullanın.\n\- N-BASIC kipi için BIOS dosyaları gereklidir. Çekirdek bilgilerine bakın."
 #define OPTION_VAL_N88_V2_TR NULL
 #define OPTION_VAL_N88_V1H_TR NULL
 #define OPTION_VAL_N88_V1S_TR NULL
 #define OPTION_VAL_N_TR NULL
-#define Q88_SUB_CPU_MODE_LABEL_TR NULL
-#define Q88_SUB_CPU_MODE_INFO_0_TR NULL
-#define OPTION_VAL_0_TR NULL
-#define OPTION_VAL_1_TR NULL
-#define OPTION_VAL_2_TR NULL
-#define Q88_CPU_CLOCK_LABEL_TR NULL
-#define Q88_CPU_CLOCK_INFO_0_TR NULL
+#define Q88_SUB_CPU_MODE_LABEL_TR "Alt CPU kipi"
+#define Q88_SUB_CPU_MODE_INFO_0_TR "Önerilen: Disket erişimi sırasında yalnızca Alt CPU'yu çalıştırın."
+#define OPTION_VAL_0_TR "Disket erişimi sırasında yalnızca Alt CPU'yu çalıştırın"
+#define OPTION_VAL_1_TR "Disket erişimi sırasında her iki CPU'yu da çalıştırın"
+#define OPTION_VAL_2_TR "Her zaman iki CPU'yu da çalıştırın"
+#define Q88_CPU_CLOCK_LABEL_TR "CPU hızı"
+#define Q88_CPU_CLOCK_INFO_0_TR "Önerilen: 4MHz veya 8MHz. Bazı yazılımlar 8MHz CPU ile çok hızlı çalışabilir."
 #define OPTION_VAL_4_TR NULL
 #define OPTION_VAL_8_TR NULL
-#define OPTION_VAL_16_TR NULL
-#define OPTION_VAL_32_TR NULL
-#define OPTION_VAL_64_TR NULL
-#define OPTION_VAL_1_O2_TR NULL
-#define OPTION_VAL_2_O2_TR NULL
-#define Q88_SOUND_BOARD_LABEL_TR NULL
-#define Q88_SOUND_BOARD_INFO_0_TR NULL
+#define OPTION_VAL_16_TR "16 MHz (hız aşırtmalı)"
+#define OPTION_VAL_32_TR "32 MHz (hız aşırtmalı)"
+#define OPTION_VAL_64_TR "64 MHz (hız aşırtmalı)"
+#define OPTION_VAL_1_O2_TR "1 MHz (hız düşürmeli)"
+#define OPTION_VAL_2_O2_TR "2 MHz (hız düşürmeli)"
+#define Q88_SOUND_BOARD_LABEL_TR "Ses kartı"
+#define Q88_SOUND_BOARD_INFO_0_TR "Önerilen: OPNA. OPN donanımını kullanırken bazı yazılımlar farklı gelebilir."
 #define OPTION_VAL_OPN_TR NULL
 #define OPTION_VAL_OPNA_TR NULL
-#define Q88_USE_FDC_WAIT_LABEL_TR NULL
-#define Q88_USE_FDC_WAIT_INFO_0_TR NULL
-#define Q88_PCG_8100_LABEL_TR NULL
-#define Q88_PCG_8100_INFO_0_TR NULL
-#define Q88_SAVE_TO_DISK_IMAGE_LABEL_TR NULL
-#define Q88_SAVE_TO_DISK_IMAGE_INFO_0_TR NULL
-#define Q88_RUMBLE_LABEL_TR NULL
-#define Q88_RUMBLE_INFO_0_TR NULL
-#define Q88_SCREEN_SIZE_LABEL_TR NULL
-#define Q88_SCREEN_SIZE_INFO_0_TR NULL
-#define Q88_SCREEN_SIZE_INFO_1_TR NULL
-#define Q88_SCREEN_SIZE_INFO_2_TR NULL
-#define OPTION_VAL_FULL_TR NULL
-#define OPTION_VAL_HALF_TR NULL
+#define Q88_USE_FDC_WAIT_LABEL_TR "FDC-Beklemesi"
+#define Q88_USE_FDC_WAIT_INFO_0_TR "Önerilen: AÇIK. Disket denetleyicisi için daha doğru IO zamanlaması sağlar."
+#define Q88_PCG_8100_LABEL_TR "PCG-8100 Kullan"
+#define Q88_PCG_8100_INFO_0_TR "Önerilen: KAPALI. Bazı PC-8000 yazılımları için gerekli olabilir."
+#define Q88_SAVE_TO_DISK_IMAGE_LABEL_TR "Kalıbı diskete kaydet"
+#define Q88_SAVE_TO_DISK_IMAGE_INFO_0_TR "Önerilen: KAPALI. Çekirdeğin tercih edilen kaydetme davranışını değiştirir.\n\- KAPALI: Disketlere yazılan veriler, ön ucun kaydetme dizininde ayrı bir dosyada saklanacaktır.\n\- AÇIK: Veriler doğrudan yüklenen disket dosyasına/dosyalarına yazılacaktır. Sıkıştırılmış içerikle çalışmaz."
+#define Q88_RUMBLE_LABEL_TR "Disket erişim sesi"
+#define Q88_RUMBLE_INFO_0_TR "Önerilen: Yok. Denetleyicinin gürültüsünü kullanarak disket denetleyicisindeki okuma seslerini taklit eder."
+#define Q88_SCREEN_SIZE_LABEL_TR "Ekran boyutu"
+#define Q88_SCREEN_SIZE_INFO_0_TR "Önerilen: Yarım. Çekirdeğin görüntüyü küçültmesine izin verir. PSP ekranı için önerilir."
+#define Q88_SCREEN_SIZE_INFO_1_TR "Önerilen: Yarım. Çekirdeğin görüntüyü küçültmesine izin verir. Nintendo 3DS ekranı için önerilir."
+#define Q88_SCREEN_SIZE_INFO_2_TR "Önerilen: Tam. Çekirdeğin görüntüyü küçültmesine izin verir. Yalnızca 400'ün altındaki ekran yükseklikleri için önerilir."
+#define OPTION_VAL_FULL_TR "Tam (640x400)"
+#define OPTION_VAL_HALF_TR "Yarım (320x200)"
 
 struct retro_core_option_v2_category option_cats_tr[] = {
    { NULL, NULL, NULL },
@@ -7415,6 +7620,211 @@ struct retro_core_option_v2_definition option_defs_uk[] = {
 struct retro_core_options_v2 options_uk = {
    option_cats_uk,
    option_defs_uk
+};
+
+/* RETRO_LANGUAGE_VAL */
+
+#define Q88_BASIC_MODE_LABEL_VAL NULL
+#define Q88_BASIC_MODE_INFO_0_VAL NULL
+#define OPTION_VAL_N88_V2_VAL NULL
+#define OPTION_VAL_N88_V1H_VAL NULL
+#define OPTION_VAL_N88_V1S_VAL NULL
+#define OPTION_VAL_N_VAL NULL
+#define Q88_SUB_CPU_MODE_LABEL_VAL NULL
+#define Q88_SUB_CPU_MODE_INFO_0_VAL NULL
+#define OPTION_VAL_0_VAL NULL
+#define OPTION_VAL_1_VAL NULL
+#define OPTION_VAL_2_VAL NULL
+#define Q88_CPU_CLOCK_LABEL_VAL NULL
+#define Q88_CPU_CLOCK_INFO_0_VAL NULL
+#define OPTION_VAL_4_VAL NULL
+#define OPTION_VAL_8_VAL NULL
+#define OPTION_VAL_16_VAL NULL
+#define OPTION_VAL_32_VAL NULL
+#define OPTION_VAL_64_VAL NULL
+#define OPTION_VAL_1_O2_VAL NULL
+#define OPTION_VAL_2_O2_VAL NULL
+#define Q88_SOUND_BOARD_LABEL_VAL NULL
+#define Q88_SOUND_BOARD_INFO_0_VAL NULL
+#define OPTION_VAL_OPN_VAL NULL
+#define OPTION_VAL_OPNA_VAL NULL
+#define Q88_USE_FDC_WAIT_LABEL_VAL NULL
+#define Q88_USE_FDC_WAIT_INFO_0_VAL NULL
+#define Q88_PCG_8100_LABEL_VAL NULL
+#define Q88_PCG_8100_INFO_0_VAL NULL
+#define Q88_SAVE_TO_DISK_IMAGE_LABEL_VAL NULL
+#define Q88_SAVE_TO_DISK_IMAGE_INFO_0_VAL NULL
+#define Q88_RUMBLE_LABEL_VAL NULL
+#define Q88_RUMBLE_INFO_0_VAL NULL
+#define Q88_SCREEN_SIZE_LABEL_VAL NULL
+#define Q88_SCREEN_SIZE_INFO_0_VAL NULL
+#define Q88_SCREEN_SIZE_INFO_1_VAL NULL
+#define Q88_SCREEN_SIZE_INFO_2_VAL NULL
+#define OPTION_VAL_FULL_VAL NULL
+#define OPTION_VAL_HALF_VAL NULL
+
+struct retro_core_option_v2_category option_cats_val[] = {
+   { NULL, NULL, NULL },
+};
+struct retro_core_option_v2_definition option_defs_val[] = {
+   { 
+      "q88_basic_mode", 
+      Q88_BASIC_MODE_LABEL_VAL,
+      NULL, 
+      Q88_BASIC_MODE_INFO_0_VAL,
+      NULL,
+      NULL,
+      {
+         { "N88 V2",  OPTION_VAL_N88_V2_VAL },
+         { "N88 V1H", OPTION_VAL_N88_V1H_VAL },
+         { "N88 V1S", OPTION_VAL_N88_V1S_VAL },
+         { "N",       OPTION_VAL_N_VAL },
+         { NULL, NULL }
+      },
+      "N88 V2"
+   },
+
+   { 
+      "q88_sub_cpu_mode",
+      Q88_SUB_CPU_MODE_LABEL_VAL,
+      NULL,
+      Q88_SUB_CPU_MODE_INFO_0_VAL,
+      NULL,
+      NULL,
+      {
+         { "0", OPTION_VAL_0_VAL},
+         { "1", OPTION_VAL_1_VAL},
+         { "2", OPTION_VAL_2_VAL},
+         { NULL, NULL },
+      },
+      "0"
+   },
+
+   { 
+      "q88_cpu_clock", 
+      Q88_CPU_CLOCK_LABEL_VAL,
+      NULL, 
+      Q88_CPU_CLOCK_INFO_0_VAL,
+      NULL,
+      NULL,
+      {
+         { "4",  OPTION_VAL_4_VAL },
+         { "8",  OPTION_VAL_8_VAL },
+         { "16", OPTION_VAL_16_VAL },
+         { "32", OPTION_VAL_32_VAL },
+         { "64", OPTION_VAL_64_VAL },
+         { "1",  OPTION_VAL_1_O2_VAL },
+         { "2",  OPTION_VAL_2_O2_VAL },
+         { NULL, NULL }
+      },
+      "4"
+   },
+
+   { 
+      "q88_sound_board", 
+      Q88_SOUND_BOARD_LABEL_VAL,
+      NULL, 
+      Q88_SOUND_BOARD_INFO_0_VAL,
+      NULL,
+      NULL,
+      {
+         { "OPN",  OPTION_VAL_OPN_VAL },
+         { "OPNA", OPTION_VAL_OPNA_VAL},
+         { NULL, NULL}
+      },
+      "OPNA"
+   },
+         
+   { 
+      "q88_use_fdc_wait", 
+      Q88_USE_FDC_WAIT_LABEL_VAL,
+      NULL, 
+      Q88_USE_FDC_WAIT_INFO_0_VAL,
+      NULL,
+      NULL,
+      {
+         { "enabled",  "enabled" },
+         { "disabled", "disabled" },
+         { NULL, NULL }
+      },
+      "enabled"
+   },
+
+   { 
+      "q88_pcg-8100", 
+      Q88_PCG_8100_LABEL_VAL,
+      NULL, 
+      Q88_PCG_8100_INFO_0_VAL,
+      NULL,
+      NULL,
+      {
+         { "enabled",  "enabled" },
+         { "disabled", "disabled" },
+         { NULL, NULL }
+      },
+      "disabled"
+   },
+
+   {
+      "q88_save_to_disk_image", 
+      Q88_SAVE_TO_DISK_IMAGE_LABEL_VAL,
+      NULL, 
+      Q88_SAVE_TO_DISK_IMAGE_INFO_0_VAL,
+      NULL,
+      NULL,
+      {
+         { "enabled",  "enabled" },
+         { "disabled", "disabled" },
+         { NULL, NULL }
+      },
+      "disabled"
+   },
+
+   { 
+      "q88_rumble", 
+      Q88_RUMBLE_LABEL_VAL,
+      NULL, 
+      Q88_RUMBLE_INFO_0_VAL,
+      NULL,
+      NULL,
+      {
+         { "enabled",  "enabled" },
+         { "disabled", "disabled" },
+         { NULL, NULL }
+      },
+      "enabled"
+   },
+
+   { 
+      "q88_screen_size", 
+      Q88_SCREEN_SIZE_LABEL_VAL,
+      NULL, 
+#if defined (PSP)
+      Q88_SCREEN_SIZE_INFO_0_VAL,
+#elif defined (_3DS)
+      Q88_SCREEN_SIZE_INFO_1_VAL,
+#else
+      Q88_SCREEN_SIZE_INFO_2_VAL,
+#endif
+      NULL,
+      NULL,
+      {
+         { "full",  OPTION_VAL_FULL_VAL },
+         { "half",  OPTION_VAL_HALF_VAL },
+         { NULL, NULL }
+      },
+#if defined (PSP) || defined (_3DS)
+      "half"
+#else
+      "full"
+#endif
+   },
+
+   { NULL, NULL, NULL, NULL, NULL, NULL, {{0}}, NULL },
+};
+struct retro_core_options_v2 options_val = {
+   option_cats_val,
+   option_defs_val
 };
 
 /* RETRO_LANGUAGE_VN */
