@@ -813,7 +813,7 @@ void retro_init(void)
       memset(&font_mem3[0], 0, 0x1000);
 
    /* Assume false if the path exists, this is updated after */
-   if (environ_cb(RETRO_ENVIRONMENT_GET_SAVE_DIRECTORY, &save_path) && !string_is_empty(save_path))
+   if (environ_cb(RETRO_ENVIRONMENT_GET_GAME_SAVE_DIRECTORY, &save_path) && !string_is_empty(save_path))
       save_to_disk_image = false;
    else
       save_to_disk_image = true;
