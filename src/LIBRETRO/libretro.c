@@ -715,7 +715,6 @@ bool retro_load_game(const struct retro_game_info *info)
 			retro_disks_append(fd->path);
 			log_cb(RETRO_LOG_INFO, "disk img[%u]: %s\n",i,fd->path);
 		}
-        retro_disks_ready();
 		if(am3u_fd->slot_tbl[0]>=0){
 			const AdvancedM3UMedia* fd=&am3u_fd->changee_tbl[am3u_fd->slot_tbl[0]];
 			quasi88_disk_insert(DRIVE_1, fd->path, 0, fd->readonly?1:0);
@@ -734,7 +733,6 @@ bool retro_load_game(const struct retro_game_info *info)
 		am3u_device_add_media(am3u_fd,1,false,NULL,&qpath,NULL);
 
          retro_disks_append(info->path);
-         retro_disks_ready();
          quasi88_disk_insert(DRIVE_1, info->path, 0, 0);
 		log_cb(RETRO_LOG_INFO, "Disk Drive 1: %s\n",info->path);
       }
