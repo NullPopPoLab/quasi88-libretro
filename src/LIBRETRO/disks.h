@@ -1,7 +1,7 @@
 #include <stdint.h>
 #include <libretro.h>
 
-#define MAX_DISK_COUNT         16
+#define MAX_DISK_COUNT         32
 #define MESSAGE_DISPLAY_FRAMES 180
 #define DRIVE_NONE             -1
 #define NO_DISK                -1
