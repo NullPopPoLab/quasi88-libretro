@@ -35,6 +35,10 @@ static bool libretro_supports_option_categories = false;
 #include "libretro-file.h"
 #include "suspend.h"
 
+#include "../mk5s/advanced_m3u.h"
+#include "../mk5s/quick_loader.h"
+#include "../mk5s/quick_path.h"
+
 #define INT16 int16_t
 #include "../snddrv/src/sound.h"
 INT16 *finalmix;
@@ -126,6 +130,9 @@ static bool     *pad_buffer                     = NULL;
 static bool      rumble_enabled                 = true;
 static char      download_dir[OSD_MAX_FILENAME] = { '\0' };
 static char      system_dir[OSD_MAX_FILENAME]   = { '\0' };
+
+AdvancedM3U *am3u=NULL;
+AdvancedM3UDevice *am3u_fd=NULL;
 
 static void handle_key(uint8_t key, uint16_t retro_key)
 {
@@ -655,60 +662,34 @@ void retro_reset(void)
    quasi88_reset(NULL);
 }
 
+static bool am3u_error(void* user,int code,int lineloc,const QTextRef* line){
+
+   if (!log_cb) return true;
+
+	char* msg=qtext_alloc_q(line);
+
+	  log_cb(RETRO_LOG_ERROR,
+                      "M3U error %d in line %d: %s\n",
+                      code,lineloc,msg);
+	
+	qtext_free(&msg);
+
+	return true;
+}
+
 static bool load_m3u(const char *filename)
 {
-   char basedir[OSD_MAX_FILENAME];
-   char line[OSD_MAX_FILENAME];
-   char name[OSD_MAX_FILENAME];
-   char *search_char;
-   uint8_t loaded_disks = 0;
-   OSD_FILE *playlist_file;
+	QLoaded* img=qload(filename,false);
+	if(!img)return false;
 
-   /* Get directory the M3U was loaded from */
-   strcpy(basedir, filename);
-   path_basedir(basedir);
+	QTextRef imgref;
+	qtext_ref_q(&imgref,(const char*)qloaded_bgn(img),img->readsize);
+	QTextRef m3udir;
+	qpath_dirname_c(&m3udir,filename);
+	am3u_setup_q(am3u,&imgref,&m3udir,am3u_error,NULL);
+	qunload(&img);
 
-   playlist_file = osd_fopen(0, filename, "r");
-   /* Couldn't open the specified M3U */
-   if (!playlist_file)
-      return false;
-
-   while (osd_fgets(line, sizeof(line), playlist_file))
-   {
-      /* Commented line */
-      if (line[0] == '#')
-         continue;
-
-      /* Find and replace line breaks */
-      search_char = strchr(line, '\r');
-      if (search_char)
-         *search_char = '\0';
-      search_char = strchr(line, '\n');
-      if (search_char)
-         *search_char = '\0';
-
-      if (line[0] != '\0')
-      {
-         /* Try it as a relative path first */
-         snprintf(name, sizeof(name), "%s%s", basedir, line);
-
-         /* Doesn't exist, try as an absolute path now */
-         if (osd_file_stat(name) == FILE_STAT_NOEXIST)
-         {
-            strncpy(name, line, sizeof(name));
-
-            /* Give up */
-            if (osd_file_stat(name) == FILE_STAT_NOEXIST)
-               continue;
-         }
-         retro_disks_append(name);
-         loaded_disks++;
-      }
-   }
-   osd_fclose(playlist_file);
-   retro_disks_ready();
-
-   return loaded_disks != 0;
+	return true;
 }
 
 bool retro_load_game(const struct retro_game_info *info)
@@ -717,14 +698,45 @@ bool retro_load_game(const struct retro_game_info *info)
    quasi88_start();
    quasi88_disk_eject_all();
 
+	am3u=am3u_new();
+	am3u_set_default_device(am3u,'F');
+	am3u_fd=am3u_get_device(am3u,'F');
+	am3u_device_set_changer(am3u_fd,MAX_DISK_COUNT);
+	am3u_device_set_slots(am3u_fd,2);
+
    if (info && !string_is_empty(info->path))
    {
       if (strstr(info->path, ".m3u") != NULL)
+      {
          load_m3u(info->path);
+		for(int i=0;i<am3u_fd->changee_max;++i){
+			const AdvancedM3UMedia* fd=&am3u_fd->changee_tbl[i];
+			if(!fd->ready)continue;
+			retro_disks_append(fd->path);
+			log_cb(RETRO_LOG_INFO, "disk img[%u]: %s\n",i,fd->path);
+		}
+        retro_disks_ready();
+		if(am3u_fd->slot_tbl[0]>=0){
+			const AdvancedM3UMedia* fd=&am3u_fd->changee_tbl[am3u_fd->slot_tbl[0]];
+			quasi88_disk_insert(DRIVE_1, fd->path, 0, fd->readonly?1:0);
+			log_cb(RETRO_LOG_INFO, "Disk Drive 1: %s\n",fd->path);
+		}
+		if(am3u_fd->slot_tbl[1]>=0){
+			const AdvancedM3UMedia* fd=&am3u_fd->changee_tbl[am3u_fd->slot_tbl[1]];
+			quasi88_disk_insert(DRIVE_2, fd->path, 0, fd->readonly?1:0);
+			log_cb(RETRO_LOG_INFO, "Disk Drive 2: %s\n",fd->path);
+		}
+      }
       else
       {
+		QTextRef qpath;
+		qtext_ref_c(&qpath,info->path);
+		am3u_device_add_media(am3u_fd,1,false,NULL,&qpath,NULL);
+
          retro_disks_append(info->path);
+         retro_disks_ready();
          quasi88_disk_insert(DRIVE_1, info->path, 0, 0);
+		log_cb(RETRO_LOG_INFO, "Disk Drive 1: %s\n",info->path);
       }
    }
    quasi88_reset(NULL);
@@ -755,6 +767,8 @@ bool retro_load_game_special(unsigned type, const struct retro_game_info *info, 
 
 void retro_unload_game(void)
 {
+	am3u_fd=NULL;
+	if(am3u)am3u_free(&am3u);
 }
 
 void retro_run(void)

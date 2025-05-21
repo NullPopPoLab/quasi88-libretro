@@ -6,6 +6,7 @@ INCFLAGS := -I$(CORE_DIR) \
    -I$(CORE_DIR)/snddrv/src/sound \
    -I$(CORE_DIR)/snddrv/quasi88 \
    -I$(CORE_DIR)/fmgen \
+   -I$(CORE_DIR)/mk5s \
    -I$(CORE_DIR)/LIBRETRO
 
 INCFLAGS += -I$(LIBRETRO_COMM_DIR)/include \
@@ -66,6 +67,11 @@ SOURCES_C := $(CORE_DIR)/quasi88.c \
    $(CORE_DIR)/LIBRETRO/disks.c \
    $(CORE_DIR)/LIBRETRO/libretro.c \
    $(CORE_DIR)/LIBRETRO/file-op.c \
+   $(CORE_DIR)/mk5s/advanced_m3u.c \
+   $(CORE_DIR)/mk5s/quick_loader.c \
+   $(CORE_DIR)/mk5s/quick_path.c \
+   $(CORE_DIR)/mk5s/quick_text.c \
+   $(CORE_DIR)/mk5s/safe_alloc.c \
    $(CORE_DIR)/snddrv/quasi88/mame-quasi88.c \
    $(CORE_DIR)/snddrv/quasi88/beepintf.c \
    $(CORE_DIR)/snddrv/quasi88/beep.c \
