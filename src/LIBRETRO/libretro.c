@@ -709,7 +709,7 @@ bool retro_load_game(const struct retro_game_info *info)
       if (strstr(info->path, ".m3u") != NULL)
       {
          load_m3u(info->path);
-		for(int i=0;i<am3u_fd->changee_max;++i){
+		for(int i=0;i<am3u_fd->changee_used;++i){
 			const AdvancedM3UMedia* fd=&am3u_fd->changee_tbl[i];
 			if(!fd->ready)continue;
 			retro_disks_append(fd->path);
