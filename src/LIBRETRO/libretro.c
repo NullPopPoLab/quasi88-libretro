@@ -71,25 +71,6 @@ static const struct retro_subsystem_memory_info pc88_memory[] = {
     { "vram", RETRO_MEMORY_PC88_VIDEO_RAM },
 };
 
-static const struct retro_subsystem_rom_info pc88_disk[] = {
-   { "Disk 1", "d88", true, false, true, pc88_memory, 1 },
-   { "Disk 2", "d88", true, false, true, pc88_memory, 1 },
-   { "Disk 3", "d88", true, false, true, pc88_memory, 1 },
-   { "Disk 4", "d88", true, false, true, pc88_memory, 1 },
-   { "Disk 5", "d88", true, false, true, pc88_memory, 1 },
-   { "Disk 6", "d88", true, false, true, pc88_memory, 1 },
-   { NULL }
-};
-
-static const struct retro_subsystem_info subsystems[] = {
-   { "2-Disk Game", "pc88_2_disk", pc88_disk, 2, 0x0101 },
-   { "3-Disk Game", "pc88_3_disk", pc88_disk, 3, 0x0102 },
-   { "4-Disk Game", "pc88_4_disk", pc88_disk, 4, 0x0103 },
-   { "5-Disk Game", "pc88_5_disk", pc88_disk, 5, 0x0104 },
-   { "6-Disk Game", "pc88_6_disk", pc88_disk, 6, 0x0105 },
-   { NULL }
-};
-
 static const struct retro_controller_description port[] = {
    { "Retro Joypad",   RETRO_DEVICE_JOYPAD },
    { "Retro Keyboard", RETRO_DEVICE_KEYBOARD },
@@ -131,8 +112,101 @@ static bool      rumble_enabled                 = true;
 static char      download_dir[OSD_MAX_FILENAME] = { '\0' };
 static char      system_dir[OSD_MAX_FILENAME]   = { '\0' };
 
+static struct retro_disk_control_ext2_callback dskcb;
+static unsigned diskidx=0;
+
 AdvancedM3U *am3u=NULL;
 AdvancedM3UDevice *am3u_fd=NULL;
+
+static bool set_drive_eject_state(unsigned drv, bool ejected)
+{
+	if(ejected){
+		quasi88_disk_eject(drv);
+		am3u_fd->slot_tbl[drv]=-1;
+	}
+	else{
+		am3u_fd->slot_tbl[drv]=diskidx;
+		return quasi88_disk_insert(drv, retro_disks[diskidx].filename, 0, !retro_disks[diskidx].is_user_disk);
+	}
+	return true;
+}
+
+static bool get_drive_eject_state(unsigned drv)
+{
+   return drive_check_empty(drv);
+}
+
+static unsigned get_image_index(void)
+{
+   return diskidx;
+}
+
+static bool set_image_index(unsigned index)
+{
+   diskidx = index;
+   return true;
+}
+
+static unsigned get_num_drives(void)
+{
+   return 2;
+}
+
+static unsigned get_num_images(void)
+{
+   return am3u_fd->changee_used;
+}
+
+static bool disk_get_image_path(unsigned index, char *path, size_t len)
+{
+   if (len < 1)
+      return false;
+
+      if (retro_disks[index].filename[0])
+      {
+         strncpy(path, retro_disks[index].filename, len);
+         return true;
+      }
+
+   return false;
+}
+
+static bool disk_get_image_label(unsigned index, char *label, size_t len)
+{
+   if (len < 1)
+      return false;
+
+      if (retro_disks[index].filename[0])
+      {
+         strncpy(label, retro_disks[index].basename, len);
+         return true;
+      }
+
+   return false;
+}
+
+static int disk_get_drive_image_index(unsigned drive)
+{
+	if(drive>=get_num_drives())return -1;
+	if(get_drive_eject_state(drive))return -1;
+	return am3u_fd->slot_tbl[drive];	
+}
+
+void attach_disk_swap_interface(void)
+{
+   memset(&dskcb,0,sizeof(dskcb));
+   dskcb.set_drive_eject_state = set_drive_eject_state;
+   dskcb.get_drive_eject_state = get_drive_eject_state;
+   dskcb.set_image_index = set_image_index;
+   dskcb.get_image_index = get_image_index;
+   dskcb.get_num_drives  = get_num_drives;
+   dskcb.get_num_images  = get_num_images;
+   dskcb.get_image_path = disk_get_image_path;
+   dskcb.get_image_label = disk_get_image_label;
+   dskcb.get_drive_image_index = disk_get_drive_image_index;
+
+   environ_cb(RETRO_ENVIRONMENT_SET_DISK_CONTROL_EXT2_INTERFACE, &dskcb);
+}
 
 static void handle_key(uint8_t key, uint16_t retro_key)
 {
@@ -218,55 +292,11 @@ static void handle_pad(uint8_t key, uint16_t retro_button, uint8_t pad)
    }
 }
 
-static bool handle_disk_swap(bool is_first_drive, uint8_t key)
-{
-   if (input_state_cb(0, RETRO_DEVICE_JOYPAD, 0, key))
-   {
-      /* On press, start swapper */
-      if (!pad_buffer[key])
-      {
-         retro_disks_start(environ_cb, is_first_drive);
-         pad_buffer[key] = true;
-      }
-      else if (input_state_cb(0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_RIGHT) && !pad_buffer[RETRO_DEVICE_ID_JOYPAD_RIGHT])
-      {
-         retro_disks_cycle(environ_cb, true);
-         pad_buffer[RETRO_DEVICE_ID_JOYPAD_RIGHT] = true;
-      }
-      else if (input_state_cb(0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_LEFT) && !pad_buffer[RETRO_DEVICE_ID_JOYPAD_LEFT])
-      {
-         retro_disks_cycle(environ_cb, false);
-         pad_buffer[RETRO_DEVICE_ID_JOYPAD_LEFT] = true;
-      }
-      else if (!input_state_cb(0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_RIGHT) && !input_state_cb(0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_LEFT))
-      {
-         pad_buffer[RETRO_DEVICE_ID_JOYPAD_LEFT] = false;
-         pad_buffer[RETRO_DEVICE_ID_JOYPAD_RIGHT] = false;
-      }
-
-      return true;
-   }
-   else if (pad_buffer[key])
-   {
-      /* On release, set the new disk */
-      pad_buffer[key] = false;
-      retro_disks_set(environ_cb);
-
-      return true;
-   }
-
-   return false;
-}
-
 static void handle_input(void)
 {
    uint8_t i;
    
    input_poll_cb();
-
-   /* Ignore other input while swapping disks */
-   if (handle_disk_swap(true, RETRO_DEVICE_ID_JOYPAD_L) || handle_disk_swap(false, RETRO_DEVICE_ID_JOYPAD_R))
-      return;
 
    /* Simple default remappings for joypad, these are temporary and a bit arbitrary */
    handle_pad(KEY88_KP_8,    RETRO_DEVICE_ID_JOYPAD_UP,     0);
@@ -558,8 +588,6 @@ void retro_init(void)
       { 0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_Y,      "Space Key" },
       { 0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_START,  "Return Key" },
       { 0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_SELECT, "I Key" },
-      { 0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_L,      "Change drive 1 disk" },
-      { 0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_R,      "Change drive 2 disk" },
 
       { 1, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_LEFT,   "D Key" },
       { 1, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_UP,     "R Key" },
@@ -647,6 +675,8 @@ void retro_init(void)
       save_to_disk_image = false;
    else
       save_to_disk_image = true;
+
+   attach_disk_swap_interface();
   
    environ_cb(RETRO_ENVIRONMENT_SET_INPUT_DESCRIPTORS, desc);
    key_buffer = (bool*)calloc(KEY88_END, sizeof(bool));
@@ -852,7 +882,6 @@ void retro_set_environment(retro_environment_t cb)
 
    cb(RETRO_ENVIRONMENT_SET_CONTROLLER_INFO, (void*)ports);
    cb(RETRO_ENVIRONMENT_SET_PIXEL_FORMAT,    &rgb565);
-   cb(RETRO_ENVIRONMENT_SET_SUBSYSTEM_INFO,  (void*)subsystems);
    cb(RETRO_ENVIRONMENT_SET_SUPPORT_NO_GAME, &no_game);
    
    /* Set localized core options if available */
