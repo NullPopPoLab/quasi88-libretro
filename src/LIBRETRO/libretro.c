@@ -112,6 +112,8 @@ static bool      rumble_enabled                 = true;
 static char      download_dir[OSD_MAX_FILENAME] = { '\0' };
 static char      system_dir[OSD_MAX_FILENAME]   = { '\0' };
 
+static unsigned input_devices[2]={RETRO_DEVICE_JOYPAD,RETRO_DEVICE_JOYPAD};
+
 static struct retro_disk_control_ext2_callback dskcb;
 static unsigned diskidx=0;
 
@@ -212,7 +214,8 @@ static void handle_key(uint8_t key, uint16_t retro_key)
 {
    bool key_on = input_state_cb(0, RETRO_DEVICE_KEYBOARD, 0, retro_key);
    
-	switch(retro_key){
+	if(input_devices[0]!=RETRO_DEVICE_KEYBOARD){}
+	else switch(retro_key){
 		case RETROK_KP1:
 		if(input_state_cb(0, RETRO_DEVICE_KEYBOARD, 0, RETROK_KP123) &&
 			input_state_cb(0, RETRO_DEVICE_KEYBOARD, 0, RETROK_KP147))key_on = true;
@@ -275,6 +278,8 @@ static void handle_key(uint8_t key, uint16_t retro_key)
 
 static void handle_pad(uint8_t key, uint16_t retro_button, uint8_t pad)
 {
+	if(input_devices[0]!=RETRO_DEVICE_JOYPAD)return;
+
    bool button_on = input_state_cb(pad, RETRO_DEVICE_JOYPAD, 0, retro_button);
    
    if (!key_buffer[key])
@@ -870,6 +875,10 @@ unsigned retro_api_version(void)
 
 void retro_set_controller_port_device(unsigned in_port, unsigned device)
 {
+   if (in_port >= 2)
+      return;
+
+   input_devices[in_port]=device;
 }
 
 void retro_set_environment(retro_environment_t cb)
