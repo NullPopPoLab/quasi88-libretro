@@ -335,21 +335,21 @@ static void handle_input(void)
    handle_key(KEY88_HOME,        RETROK_HOME);
    handle_key(KEY88_UP,          RETROK_UP);
    handle_key(KEY88_RIGHT,       RETROK_RIGHT);
-   handle_key(KEY88_INS_DEL,     RETROK_BACKSPACE);
+   handle_key(KEY88_INS_DEL,     RETROK_DELETE);
    handle_key(KEY88_GRAPH,       RETROK_LALT);
    handle_key(KEY88_KANA,        RETROK_LSUPER);
-   handle_key(KEY88_SHIFT,       RETROK_RSHIFT);
-   handle_key(KEY88_CTRL,        RETROK_RCTRL);
+   handle_key(KEY88_SHIFT,       RETROK_LSHIFT);
+   handle_key(KEY88_CTRL,        RETROK_LCTRL);
    handle_key(KEY88_STOP,        RETROK_BREAK);
    handle_key(KEY88_ESC,         RETROK_ESCAPE);
    handle_key(KEY88_TAB,         RETROK_TAB);
    handle_key(KEY88_DOWN,        RETROK_DOWN);
    handle_key(KEY88_LEFT,        RETROK_LEFT);
-   handle_key(KEY88_HELP,        RETROK_END);
-   handle_key(KEY88_COPY,        RETROK_PRINT);
+   handle_key(KEY88_HELP,        RETROK_HELP);
+   handle_key(KEY88_COPY,        RETROK_COPY);
    handle_key(KEY88_CAPS,        RETROK_CAPSLOCK);
-   handle_key(KEY88_ROLLUP,      RETROK_PAGEUP);
-   handle_key(KEY88_ROLLDOWN,    RETROK_PAGEDOWN);
+   handle_key(KEY88_ROLLUP,      RETROK_PAGEDOWN);
+   handle_key(KEY88_ROLLDOWN,    RETROK_PAGEUP);
    handle_key(KEY88_BS,          RETROK_BACKSPACE);
    handle_key(KEY88_INS,         RETROK_INSERT);
    handle_key(KEY88_DEL,         RETROK_DELETE);
@@ -380,8 +380,10 @@ static void handle_input(void)
       handle_key(KEY88_A + i, RETROK_a + i);
 
    /* Function keys */
-   for (i = 0; i < 8; i++)
-      handle_key(KEY88_F6 + i, RETROK_F1 + i);
+   for (i = 0; i < 5; i++)
+      handle_key(KEY88_F1 + i, RETROK_F1 + i);
+   for (i = 0; i < 5; i++)
+      handle_key(KEY88_F6 + i, RETROK_F6 + i);
 
    /* Joypads */
    mouse_mode = 3;
