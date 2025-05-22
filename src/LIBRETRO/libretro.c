@@ -39,6 +39,8 @@ static bool libretro_supports_option_categories = false;
 #include "../mk5s/quick_loader.h"
 #include "../mk5s/quick_path.h"
 
+#define CUSTOM_VERSION "+NC38"
+
 #define INT16 int16_t
 #include "../snddrv/src/sound.h"
 INT16 *finalmix;
@@ -821,7 +823,7 @@ void retro_get_system_info(struct retro_system_info *info)
 #ifndef GIT_VERSION
 #define GIT_VERSION ""
 #endif
-   info->library_version  = "0.6.4" GIT_VERSION;
+   info->library_version  = "0.6.4" GIT_VERSION CUSTOM_VERSION;
    info->need_fullpath    = false;
    info->valid_extensions = "d88|m3u";
    info->block_extract    = false;
