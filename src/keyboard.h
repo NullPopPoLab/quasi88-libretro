@@ -409,5 +409,6 @@ enum {
   KEY88_END		= 256
 };
 
+byte quasi88_key_port(byte key);
 
 #endif	/* KEYBOARD_H_INCLUDED */

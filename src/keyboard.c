@@ -400,22 +400,22 @@ static const T_KEYPORT keyport[ KEY88_EXT_END ] =
   { 0,0 },{ 0,0 },{ 0,0 },{ 0,0 },
   { 0,0 },{ 0,0 },{ 0,0 },{ 0,0 },
 
-  { Port9, Bit1 },	/*f-1*/	/*	  KEY88_F6		= 180,	*/
-  { Port9, Bit2 },	/*f-2*/	/*	  KEY88_F7		= 181,	*/
-  { Port9, Bit3 },	/*f-3*/	/*	  KEY88_F8		= 182,	*/
-  { Port9, Bit4 },	/*f-4*/	/*	  KEY88_F9		= 183,	*/
-  { Port9, Bit5 },	/*f-5*/	/*	  KEY88_F10		= 184,	*/
+  { PortC, Bit0 },	/*f-1*/	/*	  KEY88_F6		= 180,	*/
+  { PortC, Bit1 },	/*f-2*/	/*	  KEY88_F7		= 181,	*/
+  { PortC, Bit2 },	/*f-3*/	/*	  KEY88_F8		= 182,	*/
+  { PortC, Bit3 },	/*f-4*/	/*	  KEY88_F9		= 183,	*/
+  { PortC, Bit4 },	/*f-5*/	/*	  KEY88_F10		= 184,	*/
   { Port8, Bit3 },	/*del*/	/*	  KEY88_BS		= 185,	*/
-  { Port8, Bit3 },	/*del*/	/*	  KEY88_INS		= 186,	*/
-  { Port8, Bit3 },	/*del*/	/*	  KEY88_DEL		= 187,	*/
-  { Port9, Bit6 },	/*spc*/	/*	  KEY88_HENKAN		= 188,	*/
-  { Port9, Bit6 },	/*spc*/	/*	  KEY88_KETTEI		= 189,	*/
-  {     0,    0 },		/*	  KEY88_PC		= 190,	*/
-  {     0,    0 },		/*	  KEY88_ZENKAKU		= 191,	*/
-  { Port1, Bit7 },	/*ret*/	/*	  KEY88_RETURNL		= 192,	*/
-  { Port1, Bit7 },	/*ret*/	/*	  KEY88_RETURNR		= 193,	*/
-  { Port8, Bit6 },	/*sft*/	/*	  KEY88_SHIFTL		= 194,	*/
-  { Port8, Bit6 },	/*sft*/	/*	  KEY88_SHIFTR		= 195,	*/
+  { PortC, Bit6 },	/*del*/	/*	  KEY88_INS		= 186,	*/
+  { PortC, Bit7 },	/*del*/	/*	  KEY88_DEL		= 187,	*/
+  { PortD, Bit0 },	/*spc*/	/*	  KEY88_HENKAN		= 188,	*/
+  { PortD, Bit1 },	/*spc*/	/*	  KEY88_KETTEI		= 189,	*/
+  { PortD, Bit2 },		/*	  KEY88_PC		= 190,	*/
+  { PortD, Bit3 },		/*	  KEY88_ZENKAKU		= 191,	*/
+  { PortE, Bit0 },	/*ret*/	/*	  KEY88_RETURNL		= 192,	*/
+  { PortE, Bit1 },	/*ret*/	/*	  KEY88_RETURNR		= 193,	*/
+  { PortE, Bit2 },	/*sft*/	/*	  KEY88_SHIFTL		= 194,	*/
+  { PortE, Bit3 },	/*sft*/	/*	  KEY88_SHIFTR		= 195,	*/
 
   { 0,0 },{ 0,0 },{ 0,0 },{ 0,0 },
   { 0,0 },{ 0,0 },{ 0,0 },{ 0,0 },
@@ -2772,4 +2772,21 @@ static	int	symbol2int(const char *str,
     }
 
     return -1;
+}
+
+byte quasi88_key_port(byte key)
+{
+	if(key<0)return 0;
+	if(key>=KEY88_END)return 0;
+
+	byte r=keyport[key].port<<3;
+	byte m=keyport[key].mask;
+	if(m&Bit7)return r+7;
+	if(m&Bit6)return r+6;
+	if(m&Bit5)return r+5;
+	if(m&Bit4)return r+4;
+	if(m&Bit3)return r+3;
+	if(m&Bit2)return r+2;
+	if(m&Bit1)return r+1;
+	return r;
 }
