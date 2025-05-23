@@ -213,10 +213,52 @@ void attach_disk_swap_interface(void)
    environ_cb(RETRO_ENVIRONMENT_SET_DISK_CONTROL_EXT2_INTERFACE, &dskcb);
 }
 
+static byte toggle_caps=false;
+static byte toggle_kana=false;
+
+static void apply_key(bool* buffer, uint8_t key, bool on)
+{
+	byte port=quasi88_key_port(key);
+
+	if (!buffer[key] && on)
+	{
+		if(++port_buffer[port]==1)
+		{
+			switch(key){
+				case KEY88_CAPS:
+				toggle_caps=!toggle_caps;
+				quasi88_key(key, toggle_caps?1:0);
+				break;
+
+				case KEY88_KANA:
+				toggle_kana=!toggle_kana;
+				quasi88_key(key, toggle_kana?1:0);
+				break;
+
+				default:
+				quasi88_key(key, 1);
+			}
+		}
+	}
+	else if (buffer[key] && !on)
+	{
+		if(--port_buffer[port]==0)
+		{
+			switch(key){
+				case KEY88_CAPS: break;
+				case KEY88_KANA: break;
+
+				default:
+				quasi88_key(key, 0);
+			}
+		}
+	}
+	buffer[key] = on;
+}
+
 static void handle_key(uint8_t key, uint16_t retro_key)
 {
    bool key_on = input_state_cb(0, RETRO_DEVICE_KEYBOARD, 0, retro_key);
-   byte port=quasi88_key_port(key);
 
 	if(input_devices[0]!=RETRO_DEVICE_KEYBOARD){}
 	else switch(retro_key){
@@ -265,15 +307,7 @@ static void handle_key(uint8_t key, uint16_t retro_key)
 		break;
 	}
 
-      if (!key_buffer[key] && key_on)
-      {
-         if(++port_buffer[port]==1)quasi88_key(key, 1);
-      }
-      else if (key_buffer[key] && !key_on)
-      {
-         if(--port_buffer[port]==0)quasi88_key(key, 0);
-      }
-      key_buffer[key] = key_on;
+	apply_key(key_buffer,key,key_on);
 }
 
 static void handle_pad(uint8_t key, uint16_t retro_button, uint8_t pad)
@@ -281,17 +315,8 @@ static void handle_pad(uint8_t key, uint16_t retro_button, uint8_t pad)
 	if(input_devices[0]!=RETRO_DEVICE_JOYPAD)return;
 
    bool button_on = input_state_cb(pad, RETRO_DEVICE_JOYPAD, 0, retro_button);
-   byte port=quasi88_key_port(key);
 
-      if (!pad_buffer[key] && button_on)
-      {
-         if(++port_buffer[port]==1)quasi88_key(key, 1);
-      }
-      else if (pad_buffer[key] && !button_on)
-      {
-         if(--port_buffer[port]==0)quasi88_key(key, 0);
-      }
-      pad_buffer[key] = button_on;
+	apply_key(pad_buffer,key,button_on);
 }
 
 static void handle_input(void)
