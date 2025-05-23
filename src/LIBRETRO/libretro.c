@@ -332,7 +332,7 @@ static void handle_input(void)
    handle_key(KEY88_HOME,        RETROK_HOME);
    handle_key(KEY88_UP,          RETROK_UP);
    handle_key(KEY88_RIGHT,       RETROK_RIGHT);
-   handle_key(KEY88_INS_DEL,     RETROK_DELETE);
+   handle_key(KEY88_INS_DEL,     RETROK_BACKSPACE);
    handle_key(KEY88_GRAPH,       RETROK_LALT);
    handle_key(KEY88_KANA,        RETROK_LSUPER);
    handle_key(KEY88_SHIFT,       RETROK_LSHIFT);
