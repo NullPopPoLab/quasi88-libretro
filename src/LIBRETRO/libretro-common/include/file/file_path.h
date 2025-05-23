@@ -272,6 +272,8 @@ void fill_pathname_noext(char *out_path, const char *in_path,
  **/
 char *find_last_slash(const char *str);
 
+void trim_tail_slash(const char *str);
+
 /**
  * fill_pathname_dir:
  * @in_dir             : input directory path
@@ -336,6 +338,13 @@ void fill_pathname_basedir_noext(char *out_dir,
  **/
 bool fill_pathname_parent_dir_name(char *out_dir,
       const char *in_dir, size_t size);
+
+bool fill_pathname_specific_folder_name(char *out_dir,
+      const char *in_dir, const char *rootpath, const char *gamepath, size_t size, bool mkdir);
+bool fill_pathname_specific_game_name(char *out_dir,
+      const char *in_dir, const char *rootpath, const char *gamepath, size_t size, bool mkdir);
+bool fill_pathname_specific_boot_name(char *out_dir,
+      const char *in_dir, const char *rootpath, const char *gamepath, size_t size, bool mkdir);
 
 /**
  * fill_pathname_parent_dir:
@@ -505,6 +514,7 @@ void fill_pathname_home_dir(char *buf, size_t size);
  * Returns: true (1) if directory could be created, otherwise false (0).
  **/
 bool path_mkdir(const char *dir);
+bool path_parent_mkdir(const char *path);
 
 /**
  * path_is_directory:
