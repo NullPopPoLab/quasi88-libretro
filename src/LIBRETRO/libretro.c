@@ -110,6 +110,7 @@ const char *bios_filenames[ROM_END][4] =
 static uint32_t  frames                         = 0;
 static bool     *key_buffer                     = NULL;
 static bool     *pad_buffer                     = NULL;
+static uint8_t   port_buffer[128];
 static bool      rumble_enabled                 = true;
 static char      download_dir[OSD_MAX_FILENAME] = { '\0' };
 static char      system_dir[OSD_MAX_FILENAME]   = { '\0' };
@@ -213,7 +214,8 @@ void attach_disk_swap_interface(void)
 static void handle_key(uint8_t key, uint16_t retro_key)
 {
    bool key_on = input_state_cb(0, RETRO_DEVICE_KEYBOARD, 0, retro_key);
-   
+   byte port=quasi88_key_port(key);
+
 	switch(retro_key){
 		case RETROK_KP1:
 		if(input_state_cb(0, RETRO_DEVICE_KEYBOARD, 0, RETROK_KP123) &&
@@ -260,38 +262,31 @@ static void handle_key(uint8_t key, uint16_t retro_key)
 		break;
 	}
 
-   if (!pad_buffer[key])
-   {
       if (!key_buffer[key] && key_on)
       {
-         quasi88_key(key, 1);
-         key_buffer[key] = true;
+         if(++port_buffer[port]==1)quasi88_key(key, 1);
       }
-      else if (!key_on)
+      else if (key_buffer[key] && !key_on)
       {
-         quasi88_key(key, 0);
-         key_buffer[key] = false;
+         if(--port_buffer[port]==0)quasi88_key(key, 0);
       }
-   }
+      key_buffer[key] = key_on;
 }
 
 static void handle_pad(uint8_t key, uint16_t retro_button, uint8_t pad)
 {
    bool button_on = input_state_cb(pad, RETRO_DEVICE_JOYPAD, 0, retro_button);
-   
-   if (!key_buffer[key])
-   {
+   byte port=quasi88_key_port(key);
+
       if (!pad_buffer[key] && button_on)
       {
-         quasi88_key(key, 1);
-         pad_buffer[key] = true;
+         if(++port_buffer[port]==1)quasi88_key(key, 1);
       }
-      else if (!button_on)
+      else if (pad_buffer[key] && !button_on)
       {
-         quasi88_key(key, 0);
-         pad_buffer[key] = false;
+         if(--port_buffer[port]==0)quasi88_key(key, 0);
       }
-   }
+      pad_buffer[key] = button_on;
 }
 
 static void handle_input(void)
@@ -685,6 +680,7 @@ void retro_init(void)
    environ_cb(RETRO_ENVIRONMENT_SET_INPUT_DESCRIPTORS, desc);
    key_buffer = (bool*)calloc(KEY88_END, sizeof(bool));
    pad_buffer = (bool*)calloc(KEY88_END, sizeof(bool));
+   memset(port_buffer,0,sizeof(port_buffer));
    init_variables();
    retro_disks_init();
 }

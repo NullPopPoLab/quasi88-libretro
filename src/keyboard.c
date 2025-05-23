@@ -2773,3 +2773,20 @@ static	int	symbol2int(const char *str,
 
     return -1;
 }
+
+byte quasi88_key_port(byte key)
+{
+	if(key<0)return 0;
+	if(key>=KEY88_END)return 0;
+
+	byte r=keyport[key].port<<3;
+	byte m=keyport[key].mask;
+	if(m&Bit7)return r+7;
+	if(m&Bit6)return r+6;
+	if(m&Bit5)return r+5;
+	if(m&Bit4)return r+4;
+	if(m&Bit3)return r+3;
+	if(m&Bit2)return r+2;
+	if(m&Bit1)return r+1;
+	return r;
+}
