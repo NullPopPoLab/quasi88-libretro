@@ -357,28 +357,40 @@ static void handle_input(void)
    handle_pad(KEY88_ROLLDOWN,RETRO_DEVICE_ID_JOYPAD_RIGHT_ANALOG_UP, 0);
    
    /* Basics, numbers */
-   for (i = 0; i < 64; i++)
+   for (i = 44; i < 58; i++)
       handle_key(i, i);
-   for (i = 0; i < 6; i++)
-      handle_key(KEY88_BRACKETLEFT + i, RETROK_LEFTBRACKET + i);
-   for (i = 0; i < 4; i++)
-      handle_key(KEY88_BRACELEFT + i, RETROK_LEFTBRACE + i);
+   handle_key(KEY88_SPACE,       RETROK_SPACE);
+   handle_key(KEY88_COLON,       /*RETROK_COLON*/ RETROK_QUOTE);
+   handle_key(KEY88_SEMICOLON,   RETROK_SEMICOLON);
+   handle_key(KEY88_AT,          /*RETROK_AT*/ RETROK_LEFTBRACKET);
+   handle_key(KEY88_BRACKETLEFT, /*RETROK_LEFTBRACKET*/ RETROK_RIGHTBRACKET);
+   handle_key(KEY88_YEN,         RETROK_YEN);
+   handle_key(KEY88_BRACKETRIGHT,/*RETROK_RIGHTBRACKET*/ RETROK_BACKSLASH);
+   handle_key(KEY88_CARET,       /*RETROK_CARET*/ RETROK_EQUALS);
+   handle_key(KEY88_UNDERSCORE,  /*RETROK_UNDERSCORE*/ RETROK_RCTRL);
+//   handle_key(KEY88_BACKQUOTE,   RETROK_BACKQUOTE);
+//   handle_key(KEY88_BRACELEFT,   RETROK_LEFTBRACE);
+//   handle_key(KEY88_BAR,         RETROK_BAR);
+//   handle_key(KEY88_BRACERIGHT,  RETROK_RIGHTBRACE);
+//   handle_key(KEY88_TILDE,       RETROK_TILDE);
+
    handle_key(KEY88_RETURN,      RETROK_RETURN);
    handle_key(KEY88_HOME,        RETROK_HOME);
    handle_key(KEY88_UP,          RETROK_UP);
    handle_key(KEY88_RIGHT,       RETROK_RIGHT);
    handle_key(KEY88_INS_DEL,     RETROK_BACKSPACE);
    handle_key(KEY88_GRAPH,       RETROK_LALT);
-   handle_key(KEY88_KANA,        RETROK_LSUPER);
+   handle_key(KEY88_KANA,        RETROK_KATAHIRA);
    handle_key(KEY88_SHIFT,       RETROK_LSHIFT);
    handle_key(KEY88_CTRL,        RETROK_LCTRL);
    handle_key(KEY88_STOP,        RETROK_BREAK);
+   handle_key(KEY88_STOP,        RETROK_PAUSE); // for SHIFT+BREAK 
    handle_key(KEY88_ESC,         RETROK_ESCAPE);
    handle_key(KEY88_TAB,         RETROK_TAB);
    handle_key(KEY88_DOWN,        RETROK_DOWN);
    handle_key(KEY88_LEFT,        RETROK_LEFT);
-   handle_key(KEY88_HELP,        RETROK_HELP);
-   handle_key(KEY88_COPY,        RETROK_COPY);
+   handle_key(KEY88_HELP,        RETROK_END);
+   handle_key(KEY88_COPY,        RETROK_F12);
    handle_key(KEY88_CAPS,        RETROK_CAPSLOCK);
    handle_key(KEY88_ROLLUP,      RETROK_PAGEDOWN);
    handle_key(KEY88_ROLLDOWN,    RETROK_PAGEUP);
@@ -387,10 +399,10 @@ static void handle_input(void)
    handle_key(KEY88_DEL,         RETROK_DELETE);
 
    handle_key(KEY88_HENKAN,      RETROK_CONVERT);
-   handle_key(KEY88_KETTEI,      RETROK_EXEC);
-   handle_key(KEY88_PC,          RETROK_PC);
+   handle_key(KEY88_KETTEI,      RETROK_RALT);
+   handle_key(KEY88_PC,          RETROK_COMPOSE);
 
-   handle_key(KEY88_ZENKAKU,     RETROK_RALT);
+   handle_key(KEY88_ZENKAKU,     RETROK_ZENHAN);
    handle_key(KEY88_RETURNL,     RETROK_RETURN);
    handle_key(KEY88_RETURNR,     RETROK_RETURN);
    handle_key(KEY88_SHIFTL,      RETROK_LSHIFT);
@@ -402,7 +414,7 @@ static void handle_input(void)
    handle_key(KEY88_KP_MULTIPLY, RETROK_KP_MULTIPLY);
    handle_key(KEY88_KP_ADD,      RETROK_KP_PLUS);
    handle_key(KEY88_KP_EQUAL,    RETROK_KP_EQUALS);
-   handle_key(KEY88_KP_COMMA,    RETROK_KP_ENTER);
+   handle_key(KEY88_RETURNR,     RETROK_KP_ENTER);
    handle_key(KEY88_KP_PERIOD,   RETROK_KP_PERIOD);
    handle_key(KEY88_KP_SUB,      RETROK_KP_MINUS);
    handle_key(KEY88_KP_DIVIDE,   RETROK_KP_DIVIDE);
