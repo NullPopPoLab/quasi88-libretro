@@ -39,7 +39,7 @@ static bool libretro_supports_option_categories = false;
 #include "../mk5s/quick_loader.h"
 #include "../mk5s/quick_path.h"
 
-#define CUSTOM_VERSION "+NCA38"
+#define CUSTOM_VERSION "+NCA41"
 
 #define INT16 int16_t
 #include "../snddrv/src/sound.h"
