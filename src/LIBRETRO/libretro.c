@@ -116,6 +116,7 @@ static char      download_dir[OSD_MAX_FILENAME] = { '\0' };
 static char      system_dir[OSD_MAX_FILENAME]   = { '\0' };
 
 static unsigned input_devices[2]={RETRO_DEVICE_JOYPAD,RETRO_DEVICE_JOYPAD};
+static bool pad2key=true;
 
 static struct retro_disk_control_ext2_callback dskcb;
 static unsigned diskidx=0;
@@ -325,37 +326,39 @@ static void handle_input(void)
    
    input_poll_cb();
 
-   /* Simple default remappings for joypad, these are temporary and a bit arbitrary */
-   handle_pad(KEY88_KP_8,    RETRO_DEVICE_ID_JOYPAD_UP,     0);
-   handle_pad(KEY88_KP_2,    RETRO_DEVICE_ID_JOYPAD_DOWN,   0);
-   handle_pad(KEY88_KP_4,    RETRO_DEVICE_ID_JOYPAD_LEFT,   0);
-   handle_pad(KEY88_KP_6,    RETRO_DEVICE_ID_JOYPAD_RIGHT,  0);
-   handle_pad(KEY88_C,       RETRO_DEVICE_ID_JOYPAD_A,      0);
-   handle_pad(KEY88_X,       RETRO_DEVICE_ID_JOYPAD_B,      0);
-   handle_pad(KEY88_Z,       RETRO_DEVICE_ID_JOYPAD_C,      0);
-   handle_pad(KEY88_RETURN,  RETRO_DEVICE_ID_JOYPAD_X,      0);
-   handle_pad(KEY88_RETURNL, RETRO_DEVICE_ID_JOYPAD_X,      0);
-   handle_pad(KEY88_RETURNR, RETRO_DEVICE_ID_JOYPAD_X,      0);
-   handle_pad(KEY88_SPACE,   RETRO_DEVICE_ID_JOYPAD_Y,      0);
-   handle_pad(KEY88_BS,      RETRO_DEVICE_ID_JOYPAD_Z,      0);
-   handle_pad(KEY88_F1,      RETRO_DEVICE_ID_JOYPAD_L,      0);
-   handle_pad(KEY88_F2,      RETRO_DEVICE_ID_JOYPAD_L2,     0);
-   handle_pad(KEY88_F3,      RETRO_DEVICE_ID_JOYPAD_R,      0);
-   handle_pad(KEY88_F4,      RETRO_DEVICE_ID_JOYPAD_R2,     0);
-   handle_pad(KEY88_F5,      RETRO_DEVICE_ID_JOYPAD_START,  0);
-   handle_pad(KEY88_HELP,    RETRO_DEVICE_ID_JOYPAD_MENU,   0);
-   handle_pad(KEY88_HOME,    RETRO_DEVICE_ID_JOYPAD_SELECT, 0);
-   handle_pad(KEY88_STOP,    RETRO_DEVICE_ID_JOYPAD_L3,     0);
-   handle_pad(KEY88_COPY,    RETRO_DEVICE_ID_JOYPAD_R3,     0);
-   handle_pad(KEY88_GRAPH,   RETRO_DEVICE_ID_JOYPAD_LEFT_ANALOG_RIGHT, 0);
-   handle_pad(KEY88_CTRL,    RETRO_DEVICE_ID_JOYPAD_LEFT_ANALOG_LEFT, 0);
-   handle_pad(KEY88_SHIFT,   RETRO_DEVICE_ID_JOYPAD_LEFT_ANALOG_DOWN, 0);
-   handle_pad(KEY88_ESC,     RETRO_DEVICE_ID_JOYPAD_LEFT_ANALOG_UP, 0);
-   handle_pad(KEY88_KANA,    RETRO_DEVICE_ID_JOYPAD_RIGHT_ANALOG_RIGHT, 0);
-   handle_pad(KEY88_CAPS,    RETRO_DEVICE_ID_JOYPAD_RIGHT_ANALOG_LEFT, 0);
-   handle_pad(KEY88_ROLLUP,  RETRO_DEVICE_ID_JOYPAD_RIGHT_ANALOG_DOWN, 0);
-   handle_pad(KEY88_ROLLDOWN,RETRO_DEVICE_ID_JOYPAD_RIGHT_ANALOG_UP, 0);
-   
+	if(pad2key){
+		/* Simple default remappings for joypad, these are temporary and a bit arbitrary */
+		handle_pad(KEY88_KP_8,    RETRO_DEVICE_ID_JOYPAD_UP,     0);
+		handle_pad(KEY88_KP_2,    RETRO_DEVICE_ID_JOYPAD_DOWN,   0);
+		handle_pad(KEY88_KP_4,    RETRO_DEVICE_ID_JOYPAD_LEFT,   0);
+		handle_pad(KEY88_KP_6,    RETRO_DEVICE_ID_JOYPAD_RIGHT,  0);
+		handle_pad(KEY88_C,       RETRO_DEVICE_ID_JOYPAD_A,      0);
+		handle_pad(KEY88_X,       RETRO_DEVICE_ID_JOYPAD_B,      0);
+		handle_pad(KEY88_Z,       RETRO_DEVICE_ID_JOYPAD_C,      0);
+		handle_pad(KEY88_RETURN,  RETRO_DEVICE_ID_JOYPAD_X,      0);
+		handle_pad(KEY88_RETURNL, RETRO_DEVICE_ID_JOYPAD_X,      0);
+		handle_pad(KEY88_RETURNR, RETRO_DEVICE_ID_JOYPAD_X,      0);
+		handle_pad(KEY88_SPACE,   RETRO_DEVICE_ID_JOYPAD_Y,      0);
+		handle_pad(KEY88_BS,      RETRO_DEVICE_ID_JOYPAD_Z,      0);
+		handle_pad(KEY88_F1,      RETRO_DEVICE_ID_JOYPAD_L,      0);
+		handle_pad(KEY88_F2,      RETRO_DEVICE_ID_JOYPAD_L2,     0);
+		handle_pad(KEY88_F3,      RETRO_DEVICE_ID_JOYPAD_R,      0);
+		handle_pad(KEY88_F4,      RETRO_DEVICE_ID_JOYPAD_R2,     0);
+		handle_pad(KEY88_F5,      RETRO_DEVICE_ID_JOYPAD_START,  0);
+		handle_pad(KEY88_HELP,    RETRO_DEVICE_ID_JOYPAD_MENU,   0);
+		handle_pad(KEY88_HOME,    RETRO_DEVICE_ID_JOYPAD_SELECT, 0);
+		handle_pad(KEY88_STOP,    RETRO_DEVICE_ID_JOYPAD_L3,     0);
+		handle_pad(KEY88_COPY,    RETRO_DEVICE_ID_JOYPAD_R3,     0);
+		handle_pad(KEY88_GRAPH,   RETRO_DEVICE_ID_JOYPAD_LEFT_ANALOG_RIGHT, 0);
+		handle_pad(KEY88_CTRL,    RETRO_DEVICE_ID_JOYPAD_LEFT_ANALOG_LEFT, 0);
+		handle_pad(KEY88_SHIFT,   RETRO_DEVICE_ID_JOYPAD_LEFT_ANALOG_DOWN, 0);
+		handle_pad(KEY88_ESC,     RETRO_DEVICE_ID_JOYPAD_LEFT_ANALOG_UP, 0);
+		handle_pad(KEY88_KANA,    RETRO_DEVICE_ID_JOYPAD_RIGHT_ANALOG_RIGHT, 0);
+		handle_pad(KEY88_CAPS,    RETRO_DEVICE_ID_JOYPAD_RIGHT_ANALOG_LEFT, 0);
+		handle_pad(KEY88_ROLLUP,  RETRO_DEVICE_ID_JOYPAD_RIGHT_ANALOG_DOWN, 0);
+		handle_pad(KEY88_ROLLDOWN,RETRO_DEVICE_ID_JOYPAD_RIGHT_ANALOG_UP, 0);
+	}
+
    /* Basics, numbers */
    for (i = 44; i < 58; i++)
       handle_key(i, i);
@@ -430,20 +433,21 @@ static void handle_input(void)
       handle_key(KEY88_F6 + i, RETROK_F6 + i);
 
    /* Joypads */
-   mouse_mode = 3;
-   handle_key(KEY88_PAD1_UP,    RETRO_DEVICE_ID_JOYPAD_UP);
-   handle_key(KEY88_PAD1_DOWN,  RETRO_DEVICE_ID_JOYPAD_DOWN);
-   handle_key(KEY88_PAD1_LEFT,  RETRO_DEVICE_ID_JOYPAD_LEFT);
-   handle_key(KEY88_PAD1_RIGHT, RETRO_DEVICE_ID_JOYPAD_RIGHT);
-   handle_key(KEY88_PAD1_A,     RETRO_DEVICE_ID_JOYPAD_A);
-   handle_key(KEY88_PAD1_B,     RETRO_DEVICE_ID_JOYPAD_B);
-   
-   handle_key(KEY88_PAD2_UP,    RETRO_DEVICE_ID_JOYPAD_UP);
-   handle_key(KEY88_PAD2_DOWN,  RETRO_DEVICE_ID_JOYPAD_DOWN);
-   handle_key(KEY88_PAD2_LEFT,  RETRO_DEVICE_ID_JOYPAD_LEFT);
-   handle_key(KEY88_PAD2_RIGHT, RETRO_DEVICE_ID_JOYPAD_RIGHT);
-   handle_key(KEY88_PAD2_A,     RETRO_DEVICE_ID_JOYPAD_A);
-   handle_key(KEY88_PAD2_B,     RETRO_DEVICE_ID_JOYPAD_B);
+   mouse_mode = MOUSE_JOYSTICK;
+	if(!pad2key){
+		handle_pad(KEY88_PAD1_UP,    RETRO_DEVICE_ID_JOYPAD_UP,0);
+		handle_pad(KEY88_PAD1_DOWN,  RETRO_DEVICE_ID_JOYPAD_DOWN,0);
+		handle_pad(KEY88_PAD1_LEFT,  RETRO_DEVICE_ID_JOYPAD_LEFT,0);
+		handle_pad(KEY88_PAD1_RIGHT, RETRO_DEVICE_ID_JOYPAD_RIGHT,0);
+		handle_pad(KEY88_PAD1_A,     RETRO_DEVICE_ID_JOYPAD_A,0);
+		handle_pad(KEY88_PAD1_B,     RETRO_DEVICE_ID_JOYPAD_B,0);
+	}
+	handle_pad(KEY88_PAD2_UP,    RETRO_DEVICE_ID_JOYPAD_UP,1);
+	handle_pad(KEY88_PAD2_DOWN,  RETRO_DEVICE_ID_JOYPAD_DOWN,1);
+	handle_pad(KEY88_PAD2_LEFT,  RETRO_DEVICE_ID_JOYPAD_LEFT,1);
+	handle_pad(KEY88_PAD2_RIGHT, RETRO_DEVICE_ID_JOYPAD_RIGHT,1);
+	handle_pad(KEY88_PAD2_A,     RETRO_DEVICE_ID_JOYPAD_A,1);
+	handle_pad(KEY88_PAD2_B,     RETRO_DEVICE_ID_JOYPAD_B,1);
 }
 
 static void handle_rumble(void)
@@ -463,6 +467,16 @@ static void handle_rumble(void)
 static void init_variables(void)
 {
    struct retro_variable var = {0};
+
+   var.key = "q88_padtokey";
+
+	if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
+	{
+		if (strcmp(var.value, "0") == 0)
+			pad2key = false;
+		else pad2key = true;
+	}
+	else pad2key = true;
 
    var.key = "q88_basic_mode";
 
