@@ -56,6 +56,21 @@ struct retro_core_option_v2_category option_cats_us[] = {
 
 struct retro_core_option_v2_definition option_defs_us[] = {
    { 
+      "q88_padtokey", 
+      "Pad to Key",
+      NULL, 
+      "control keyboard by gamepad",
+      NULL,
+      NULL,
+      {
+         { "0", "Off" },
+         { "1", "On" },
+         { NULL, NULL }
+      },
+      "1"
+   },
+
+   { 
       "q88_basic_mode", 
       "BASIC mode",
       NULL, 
